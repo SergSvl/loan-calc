@@ -2,82 +2,63 @@
   <div>
     <el-container v-responsive="['hidden-all','xl','lg']" width="1170px">
       <el-header height="90px" class="header"></el-header>
-      <el-main>
-        <el-row>
-          <el-col :span="24">
-            <div class="titleHome">Закрой свою задолженность<br><span>за 35%</span> от суммы</div>
-            <el-image :src="srcPc"></el-image>
-            <!-- <picture>
-              <source :srcset="'/assets/img/bg_mob.png'" media="(max-width: 320px)">
-              <source :srcset="'/assets/img/bg_plansh.png'" media="(max-width: 768px)">
-              <source :srcset="'/assets/img/bg.png'" media="(max-width: 1920px)">
-              <img class="img-fluid" :srcset="'/assets/img/bg.png'" />
-            </picture> -->
-
-            <el-button @click="onForm" type=""></el-button>
-          </el-col>
-        </el-row>
-      </el-main>
+      <transition name="fade">
+        <el-main>
+          <el-row>
+            <el-col :span="24">
+              <div class="titleHome">Закрой свою задолженность<br><span>за 35%</span> от суммы</div>
+              <transition name="fadeImg" mode="out-in">
+                <el-image :src="srcPc" lazy></el-image>
+              </transition>
+              <el-button @click="onForm" type=""></el-button>
+            </el-col>
+          </el-row>
+        </el-main>
+      </transition>
     </el-container>
 
     <el-container v-responsive="['hidden-all','md','sm']" width="992px">
       <el-header height="90px" class="header"></el-header>
-      <el-main>
-        <el-row>
-          <el-col :span="24">
-            <div class="titleHome">Закрой свою задолженность<br><span>за 35%</span> от суммы</div>
-            <el-image :src="srcPl"></el-image>
-            <!-- <picture>
-              <source :srcset="'/assets/img/bg_mob.png'" media="(max-width: 320px)">
-              <source :srcset="'/assets/img/bg_plansh.png'" media="(max-width: 768px)">
-              <source :srcset="'/assets/img/bg.png'" media="(max-width: 1920px)">
-              <img class="img-fluid" :srcset="'/assets/img/bg.png'" />
-            </picture> -->
-
-            <el-button @click="onForm" type=""></el-button>
-          </el-col>
-        </el-row>
-      </el-main>
+      <transition name="fade">
+        <el-main>
+          <el-row>
+            <el-col :span="24">
+              <div class="titleHome">Закрой свою задолженность<br><span>за 35%</span> от суммы</div>
+              <transition name="fadeImg">
+                <el-image :src="srcPl" lazy></el-image>
+              </transition>
+              <el-button @click="onForm" type=""></el-button>
+            </el-col>
+          </el-row>
+        </el-main>
+      </transition>
     </el-container>
 
     <el-container v-responsive="['hidden-all','xs']" width="320px">
       <el-header height="90px" class="header"></el-header>
-      <el-main>
-        <el-row>
-          <el-col :span="24">
-            <div class="titleHome">Закрой свою задолженность<br><span>за 35%</span> от суммы</div>
-            <el-image :src="srcMob"></el-image>
-            <!-- <picture>
-              <source :srcset="'/assets/img/bg_mob.png'" media="(max-width: 320px)">
-              <source :srcset="'/assets/img/bg_plansh.png'" media="(max-width: 768px)">
-              <source :srcset="'/assets/img/bg.png'" media="(max-width: 1920px)">
-              <img class="img-fluid" :srcset="'/assets/img/bg.png'" />
-            </picture> -->
-
-            <el-button @click="onForm" type=""></el-button>
-          </el-col>
-        </el-row>
-      </el-main>
+      <transition name="fade">
+        <el-main>
+          <el-row>
+            <el-col :span="24">
+              <div class="titleHome">Закрой свою задолженность<br><span>за 35%</span> от суммы</div>
+              <transition name="fadeImg">
+                <el-image :src="srcMob" lazy></el-image>
+              </transition>
+              <el-button @click="onForm" type=""></el-button>
+            </el-col>
+          </el-row>
+        </el-main>
+      </transition>
     </el-container>
   </div>
 </template>
 
 <script>
-// <el-image :src="src" lazy></el-image>
-  // import PortalBtn from '../components/PortalBtn';
-  // import GetButtons from '../buttons';
-  // import {store} from '../store/'
-  // import {mapMutations} from 'vuex'
-  import {Container, Main, Header, Card, Col, Row, Button, Image,
-  //   Form, FormItem, Button, RadioGroup, Input, Select, Radio, CheckboxGroup,
-  // CheckboxButton, Option, DatePicker, TimePicker, Switch, RadioButton,
-  // Dialog
-  } from 'element-ui';
+  import {Container, Main, Header, Card, Col, Row, Button, Image } from 'element-ui';
 
   export default {
     name: 'app',
     components: {
-      // Header,
       'el-container': Container,
       'el-header': Header,
       'el-main': Main,
@@ -85,22 +66,6 @@
       'el-row': Row,
       'el-button': Button,
       'el-image': Image,
-
-      // 'el-form': Form,
-      // 'el-form-item': FormItem,
-      // 'el-button': Button,
-      // 'el-radio-group': RadioGroup,
-      // 'el-input': Input,
-      // 'el-select': Select,
-      // 'el-radio': Radio,
-      // 'el-checkbox-group': CheckboxGroup,
-      // 'el-checkbox-button': CheckboxButton,
-      // 'el-option': Option,
-      // 'el-date-picker': DatePicker,
-      // 'el-time-picker': TimePicker,
-      // 'el-switch': Switch,
-      // 'el-radio-button': RadioButton,
-      // 'el-dialog': Dialog
     },
     data () {
       return {
@@ -109,25 +74,24 @@
         srcMob: '/assets/img/bg_mob.png',
       }
     },
-    created(){
-      // this.btnHomeOff();
-      // this.btnLogoutOff();
-    },
     methods: {
       onForm(){
-
+        this.$router.push({name:'form'}) // алиас нужно передавать через name!
       }
-      // ...mapMutations([
-      //   'btnHomeOff',
-      //   'btnLogoutOff'
-      // ])
     }
   }
 </script>
 
 <style scoped>
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .3s;
+  }
+  .fade-enter, .fade-leave-to /* .fade-leave-active до версии 2.1.8 */ {
+    opacity: 0;
+  }
   .el-container{
     max-width: 1170px;
+    /* width: fit-content; */
     text-align: center;
     margin: 0 auto;
     padding: 15px;
@@ -159,8 +123,18 @@
     top: 355px;
     height: 91px;
     width: 310px;
+    border-color: transparent;
     background-image: url("/assets/img/btn.png");
     background-repeat : no-repeat;
+  }
+  .el-button:focus {
+    background-color: transparent;
+    border-color: transparent;
+  }
+  .el-button:hover {
+    border-color: transparent;
+    background-color: transparent;
+    background-image: url("/assets/img/btn_hover.png");
   }
   .el-main{
     /* background-image: url(/assets/img/bg.png); */
@@ -173,6 +147,13 @@
     background-image: url(/assets/img/logo.png);
     background-position-x: left;
     background-repeat: no-repeat;
+  }
+
+  .fadeImg-enter-active, .fadeImg-leave-active {
+    transition: opacity 0.3s;
+  }
+  .fadeImg-enter, .fadeImg-leave-to /* .fade-leave-active до версии 2.1.8 */ {
+    opacity: 0;
   }
 
   /* ПК */
@@ -207,6 +188,10 @@
       background-image: url("/assets/img/btn_plansh.png");
       background-repeat : no-repeat;
     }
+    .el-button:hover {
+      background-color: transparent;
+      background-image: url("/assets/img/btn_hover_plansh.png");
+    }
   }
 
   /* Мобильник */
@@ -227,6 +212,10 @@
       height: 75px;
       width: 258px;
       background-image: url("/assets/img/btn_mob.png");
+    }
+    .el-button:hover {
+      background-color: transparent;
+      background-image: url("/assets/img/btn_hover_mob.png");
     }
   }
 

@@ -1,5 +1,6 @@
 import VueRouter from 'vue-router'
 import Home from './pages/Home'
+import Offer from './pages/Offer'
 import E404 from './pages/E404'
 // import wordersInfo from './pages/worders/Info'
 // import archiveStart from './pages/archive/Start'
@@ -14,7 +15,6 @@ import E404 from './pages/E404'
 
 export default new VueRouter({
   mode: 'history',
-  // base: process.env.BASE_URL,
   routes: [
     {
       path: '',
@@ -27,25 +27,19 @@ export default new VueRouter({
     },
     {
       path: '/form',
+      name: "form",
       // component: wordersLogin
       component: () => import('./pages/Form')
     },
-    // {
-    //   path: '/worders/info',
-    //   component: wordersInfo
-    // },
-    // // {
-    // //   path: '/about',
-    // //   component: About
-    // // },
+    {
+      path: '/offer',
+      name: "offer",
+      component: () => import('./pages/Offer')
+    },
     // {
     //   path: '/archive/login',
     //   // component: archiveLogin
     //   component:  () => import('./pages/archive/Login')
     // },
-    // {
-    //   path: '/archive/start',
-    //   component: archiveStart
-    // }
   ]
 })
