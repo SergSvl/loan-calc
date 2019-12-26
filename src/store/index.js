@@ -5,37 +5,79 @@
 
  export const store = new Vuex.Store({
     state: {
-      homeBtn: false,
-      logoutBtn: false,
-      startPage: '',
+      typeCredit: '',
+      principalBalance: 1000.00,
+      monthlyPayment: 100.00,
+      dateMonthlyPayment: '',
+      latePayments: '',
+      wasThereTrial: '',
+      whereCase: '',
+      otherLoan: '',
     },
     getters: {
-      homeBtn(state){
-        return state.homeBtn;
+      typeCredit(state){
+        return state.typeCredit;
       },
-      logoutBtn(state){
-        return state.logoutBtn;
+      principalBalance(state){
+        return state.principalBalance;
+      },
+      monthlyPayment(state){
+        return state.monthlyPayment;
+      },
+      dateMonthlyPayment(state){
+        return state.dateMonthlyPayment;
+      },
+      latePayments(state){
+        return state.latePayments;
+      },
+      wasThereTrial(state){
+        return state.wasThereTrial;
+      },
+      whereCase(state){
+        return state.whereCase;
+      },
+      otherLoan(state){
+        return state.otherLoan;
       },
     },
     mutations: {
-      btnHomeOn(state){
-        state.homeBtn = true;
+      setTypeCredit(state, val){
+        state.typeCredit = val;
       },
-      btnHomeOff(state){
-        state.homeBtn = false;
+      setPrincipalBalance(state, val){
+        state.principalBalance = val;
       },
-      btnLogoutOn(state){
-        state.logoutBtn = true;
+      setMonthlyPayment(state, val){
+        state.monthlyPayment = val;
       },
-      btnLogoutOff(state){
-        state.logoutBtn = false;
+      setDateMonthlyPayment(state, val){
+        state.dateMonthlyPayment = val;
+      },
+      setLatePayments(state, val){
+        state.latePayments = val;
+      },
+      setWasThereTrial(state, val){
+        state.wasThereTrial = val;
+      },
+      setWhereCase(state, val){
+        state.whereCase = val;
+      },
+      setOtherLoan(state, val){
+        state.otherLoan = val;
       },
     },
     actions: {
-
+      // setAllParams(store, data){
+      //   console.log('data = ', data)
+      //   store.commit('setTypeCredit', data.aTypeCredit);
+      //   store.commit('setPrincipalBalance', data.aMonthlyPayment);
+      //   store.commit('setMonthlyPayment', data.aMonthlyPayment);
+      //   store.commit('setDateMonthlyPayment', data.aDateMonthlyPayment);
+      //   store.commit('setLatePayments', data.aLatePayments);
+      //   store.commit('setWasThereTrial', data.aWasThereTrial);
+      //   store.commit('setWhereCase', data.aWhereCase);
+      //   store.commit('setOtherLoan', data.aOtherLoan);
+      // }
     },
     strict: process.env.NODE_ENV !== 'production',
-    env: process.env,
-    base: process.env.BASE_URL,
-    process: process,
   });

@@ -11,18 +11,24 @@
           <el-col>
             <el-page-header @back="goBack" title="Назад" content=""></el-page-header>
 
-            <div class="titleForm">ВАШ ДОЛГ МОЖНО ЗАКРЫТЬ ЗА <span>349 РУБ</span>!</div>
+            <div class="titleForm">ВАШ ДОЛГ МОЖНО ЗАКРЫТЬ ЗА <span>{{ onClose() }} РУБ</span>!</div>
 
             <el-card class="box-card">
               <lineRelation
-                :value="35"
+                :str1="block1a"
+                :str2="block1b"
+                :percent="35"
               ></lineRelation>
             </el-card>
 
             <el-card class="box-card">
               <div class="box-card-title">ВАШ ДОЛГ БУДЕТ ПОГАШЕН В ТЕЧЕНИЕ 9 - 10 МЕСЯЦЕВ</div>
-              <div class="box-card-subtitle">Компания будет ежемесячно платить за вас 28 числа 104 руб</div>
-              <lineRelation></lineRelation>
+              <div class="box-card-subtitle">Компания будет ежемесячно платить за вас {{ getDate() }} числа {{ getSumMonthly() }} руб</div>
+              <lineRelation
+                :str1="block2a"
+                :str2="block2b"
+                :percent="35"
+              ></lineRelation>
             </el-card>
 
             <el-card class="box-card">
@@ -53,12 +59,9 @@
 
 <script>
 import {Container, Header, Main, Card, Col, Row, Button, PageHeader, Image, RadioGroup, Radio,
-Input, Select, Option,
-//   Button, RadioGroup,   Radio, CheckboxGroup, Form, FormItem,
-// CheckboxButton, DatePicker, TimePicker, Switch, RadioButton,
-// Dialog
-} from 'element-ui';
+Input, Select, Option} from 'element-ui';
 import {store} from '../store/'
+import {mapGetters} from 'vuex'
 import lineRelation from '../components/lineRelation';
 
 export default {
@@ -85,26 +88,14 @@ export default {
       logoPc: '/assets/img/logo.png',
       logoPl: '/assets/img/logo_plansh.png',
       logoMob: '/assets/img/logo_mob.png',
+      block1a: "35% заплатите вы " + this.onClose() + "руб",
+      block1b: "65% заплатит компания " + this.onClose() * 65 / 35 + " руб",
+      block2a: 'руб минимальный ежемесячный платеж',
+      block2b: 'руб в счет досрочного погашения долга',
     }
   },
+
   methods: {
-    // drawChart() {
-    //   var data = google.visualization.arrayToDataTable([
-    //     ['Task', 'Pay'],
-    //     ['Ваш платеж', 35],
-    //     ['Платеж компании', 65]
-    //   ]);
-    //   var options = {
-    //     title: 'Выгода',
-    //     is3D: true,
-    //     slices: {
-    //         0: { color: '#ffa726' },
-    //         1: { color: '#03a9f4' }
-    //     }
-    //   };
-    //   var chart = new google.visualization.PieChart(document.getElementById('payPlan'));
-    //   chart.draw(data, options);
-    // },
     goBack() {
       this.$router.push({name:'form'})
     },
@@ -113,8 +104,41 @@ export default {
     },
     receiveConsultation(){
 
+    },
+    onClose(){
+      return this.principalBalance * 35 / 100
+    },
+    // sum1(){
+    //   return "35% заплатите вы " + this.onClose() + "руб"
+    // },
+    // sum2(){
+    //   return "65% заплатит компания " + this.onClose() * 65 / 35 + " руб"
+    // },
+    getDate(){
+      if (this.dateMonthlyPayment == 1){
+        return 31
+      } else{
+        return this.dateMonthlyPayment - 1
+      }
+    },
+    getSumMonthly(){
+      return this.principalBalance * 10.5 / 100
     }
   },
+
+  computed: {
+    ...mapGetters([
+      'typeCredit',
+      'principalBalance',
+      'monthlyPayment',
+      'dateMonthlyPayment',
+      'latePayments',
+      'wasThereTrial',
+      'whereCase',
+      'otherLoan'
+    ])
+  },
+
   created(){
     // google.charts.load('current', {'packages':['corechart']});
     // google.charts.setOnLoadCallback(this.drawChart);
@@ -126,7 +150,7 @@ export default {
   .fade-enter-active, .fade-leave-active {
     transition: opacity 3.3s;
   }
-  .fade-enter, .fade-leave-to /* .fade-leave-active до версии 2.1.8 */ {
+  .fade-enter, .fade-leave-to {
     opacity: 0;
   }
 
@@ -136,15 +160,12 @@ export default {
   .slide-fade-leave-active {
     transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
   }
-  .slide-fade-enter, .slide-fade-leave-to
-  /* .slide-fade-leave-active до версии 2.1.8 */ {
+  .slide-fade-enter, .slide-fade-leave-to {
     transform: translateX(10px);
     opacity: 0;
   }
 
-
   .el-main{
-    /* padding: 0px; */
     max-width: 1170px;
     width: 100%;
     overflow: visible;
@@ -179,6 +200,9 @@ export default {
   .btnCalculate{
     background-color: #f7dc8a;
     font-size: 18px;
+  }
+  .btnCalculate button {
+    margin: 0 0 20px;
   }
   .box-card{
     text-align: center;
@@ -271,6 +295,9 @@ export default {
     .box-card-wrap .text{
       width: 100%;
       text-align: center;
+    }
+    .video{
+      margin: 0 auto;
     }
   }
 </style>

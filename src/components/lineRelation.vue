@@ -8,25 +8,32 @@
           <font-awesome-icon
             :icon="['fas', 'circle']"
             :mask="['far', '']"
-            style="color: #fae465; font-size: 25px;"
+            style="color: #8BC34A; font-size: 25px;"
           />
-          &nbsp; {{ value }}% заплатите вы 349 руб
+          &nbsp; {{ str1 }}
         </p>
         <p class="percentWrap">
           <font-awesome-icon far icon="circle"
             style="color: #03a9f4; font-size: 25px;"
           />
-          &nbsp; {{ 100 - value }}% заплатит компания 649 руб
+          &nbsp; {{ str2 }}
         </p>
     </div>
   </div>
 </template>
 
 <script>
-// <font-awesome-icon :icon="['fas', 'user-secret']" />
 export default {
   props: {
-    value: {
+    str1: {
+      type: String,
+      default: 0
+    },
+    str2: {
+      type: String,
+      default: 0
+    },
+    percent: {
       type: Number,
       default: 0
     }
@@ -34,7 +41,7 @@ export default {
   /* метод data() вызывыется между хуками beforeCreated() и created() */
   data () {
     return {
-      width: 'width:'+this.value+'%',
+      width: 'width:'+this.percent+'%',
     }
   },
 
@@ -66,7 +73,7 @@ export default {
   flex: 1;
 }
 .lineBar-value{
-  background-color: #fae465;
+  background-color: #8BC34A;
   border-radius: 10px 0 0 10px;
   height: 100%;
   margin: 0 auto;

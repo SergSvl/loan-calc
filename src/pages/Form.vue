@@ -9,19 +9,18 @@
       <el-main>
         <el-row>
           <el-col>
-            <!-- <el-page-header @back="goBack" content="detail"></el-page-header> -->
-
             <div class="titleForm">ДЛЯ ТОГО ЧТОБЫ РАССЧИТАТЬ СУММУ ЗАКРЫТИЯ КРЕДИТА, ПОЖАЛУЙСТА, ЗАПОЛНИТЕ ФОРМУ:</div>
 
             <el-card class="box-card">
               <div class="box-card-title">Выберите один вид кредита, который вы хотите закрыть</div>
               <div style="margin-top: 20px">
-                <el-radio-group v-model="typeCredit" size="" fill="#F7DC8A" class="radioGroupVertical">
-                  <el-radio label="ipoteka" border>Ипотека</el-radio>
-                  <el-radio label="auto" border>Авто кредит</el-radio>
-                  <el-radio label="consumer" border>Потребительский кредит</el-radio>
-                  <el-radio label="product" border>Товарный кредит</el-radio>
-                  <el-radio label="other" border>Другой вид долга</el-radio>
+                <el-radio-group v-model="typeCredit"
+                  fill="#F7DC8A" class="radioGroupVertical">
+                  <el-radio label="Ипотека" border>Ипотека</el-radio>
+                  <el-radio label="Авто кредит" border>Авто кредит</el-radio>
+                  <el-radio label="Потребительский кредит" border>Потребительский кредит</el-radio>
+                  <el-radio label="Товарный кредит" border>Товарный кредит</el-radio>
+                  <el-radio label="Другой вид долга" border>Другой вид долга</el-radio>
                 </el-radio-group>
               </div>
             </el-card>
@@ -62,32 +61,32 @@
             <el-card class="box-card">
               <div class="box-card-title">У вас есть просрочка по платежам?</div>
               <div style="margin-top: 20px">
-                <el-radio-group v-model="latePayments" size="" fill="#F7DC8A">
-                  <el-radio label="yes" border>Да</el-radio>
-                  <el-radio label="no" border>Нет</el-radio>
-                  <el-radio label="dontKnow" border>Не знаю</el-radio>
+                <el-radio-group v-model="latePayments" fill="#F7DC8A">
+                  <el-radio label="Да" border>Да</el-radio>
+                  <el-radio label="Нет" border>Нет</el-radio>
+                  <el-radio label="Не знаю" border>Не знаю</el-radio>
                 </el-radio-group>
               </div>
             </el-card>
 
-            <el-card class="box-card" v-if="latePayments == 'yes'">
+            <el-card class="box-card" v-if="latePayments == 'Да'">
               <div class="box-card-title">Был ли у вас суд?</div>
               <div style="margin-top: 20px">
-                <el-radio-group v-model="WasThereTrial" size="" fill="#F7DC8A">
-                  <el-radio label="yes" border>Да</el-radio>
-                  <el-radio label="no" border>Нет</el-radio>
-                  <el-radio label="dontKnow" border>Не знаю</el-radio>
+                <el-radio-group v-model="wasThereTrial" fill="#F7DC8A">
+                  <el-radio label="Да" border>Да</el-radio>
+                  <el-radio label="Нет" border>Нет</el-radio>
+                  <el-radio label="Не знаю" border>Не знаю</el-radio>
                 </el-radio-group>
               </div>
             </el-card>
 
-            <el-card class="box-card" v-if="WasThereTrial == 'yes'">
+            <el-card class="box-card" v-if="wasThereTrial == 'Да'">
               <div class="box-card-title">Где находится ваше дело?</div>
               <div style="margin-top: 20px">
-                <el-radio-group v-model="whereCase" size="" fill="#F7DC8A">
-                  <el-radio label="inCourt" border>В суде</el-radio>
-                  <el-radio label="policeOfficers" border>У приставов</el-radio>
-                  <el-radio label="dontKnow" border>Не знаю</el-radio>
+                <el-radio-group v-model="whereCase" fill="#F7DC8A">
+                  <el-radio label="В суде" border>В суде</el-radio>
+                  <el-radio label="У приставов" border>У приставов</el-radio>
+                  <el-radio label="Не знаю" border>Не знаю</el-radio>
                 </el-radio-group>
               </div>
             </el-card>
@@ -95,9 +94,9 @@
             <el-card class="box-card">
               <div class="box-card-title">Есть ли у вас другие кредиты?</div>
               <div style="margin-top: 20px">
-                <el-radio-group v-model="otherLoan" size="" fill="#F7DC8A">
-                  <el-radio label="yes" border>Да</el-radio>
-                  <el-radio label="no" border>Нет</el-radio>
+                <el-radio-group v-model="otherLoan" fill="#F7DC8A">
+                  <el-radio label="Да" border>Да</el-radio>
+                  <el-radio label="Нет" border>Нет</el-radio>
                 </el-radio-group>
               </div>
             </el-card>
@@ -114,12 +113,9 @@
 
 <script>
 import {Container, Header, Main, Card, Col, Row, Button, PageHeader, Image, RadioGroup, Radio,
-Input, Select, Option,
-//   Button, RadioGroup,   Radio, CheckboxGroup, Form, FormItem,
-// CheckboxButton, DatePicker, TimePicker, Switch, RadioButton,
-// Dialog
-} from 'element-ui';
+Input, Select, Option} from 'element-ui';
 import {store} from '../store/'
+// import {mapGetters} from 'vuex'
 
 export default {
   name: 'app',
@@ -137,41 +133,85 @@ export default {
     'el-radio': Radio,
     'el-input': Input,
     'el-select': Select,
-    'el-option': Option,
-
-    // 'el-form-item': FormItem,
-    // 'el-form': Form,
-    // 'el-radio-group': RadioGroup,
-    // 'el-radio': Radio,
-    // 'el-checkbox-group': CheckboxGroup,
-    // 'el-checkbox-button': CheckboxButton,
-    // 'el-date-picker': DatePicker,
-    // 'el-time-picker': TimePicker,
-    // 'el-switch': Switch,
-    // 'el-radio-button': RadioButton,
-    // 'el-dialog': Dialog
+    'el-option': Option
   },
   data () {
     return {
       logoPc: '/assets/img/logo.png',
       logoPl: '/assets/img/logo_plansh.png',
       logoMob: '/assets/img/logo_mob.png',
-      typeCredit: '',
-      principalBalance: '999,00',
-      monthlyPayment: '8,00',
-      dateMonthlyPayment: '',
-      latePayments: '',
-      WasThereTrial: '',
-      whereCase: '',
-      otherLoan: '',
     }
   },
-  methods: {
-    goBack() {
-      console.log('go back');
+  computed: {
+    typeCredit: {
+      get(){
+        return this.$store.state.typeCredit;
+      },
+      set(val){
+        this.$store.commit("setTypeCredit", val);
+      }
     },
+    principalBalance: {
+      get(){
+        return this.$store.state.principalBalance;
+      },
+      set(val){
+        this.$store.commit("setPrincipalBalance", val);
+      }
+    },
+    monthlyPayment: {
+      get(){
+        return this.$store.state.monthlyPayment;
+      },
+      set(val){
+        this.$store.commit("setMonthlyPayment", val);
+      }
+    },
+    dateMonthlyPayment: {
+      get(){
+        return this.$store.state.dateMonthlyPayment;
+      },
+      set(val){
+        this.$store.commit("setDateMonthlyPayment", val);
+      }
+    },
+    latePayments: {
+      get(){
+        return this.$store.state.latePayments;
+      },
+      set(val){
+        this.$store.commit("setLatePayments", val);
+      }
+    },
+    wasThereTrial: {
+      get(){
+        return this.$store.state.wasThereTrial;
+      },
+      set(val){
+        this.$store.commit("setWasThereTrial", val);
+      }
+    },
+    whereCase: {
+      get(){
+        return this.$store.state.whereCase;
+      },
+      set(val){
+        this.$store.commit("setWhereCase", val);
+      }
+    },
+    otherLoan: {
+      get(){
+        return this.$store.state.otherLoan;
+      },
+      set(val){
+        this.$store.commit("setOtherLoan", val);
+      }
+    },
+  },
+  methods: {
     onOffer(){
       this.$router.push({name:'offer'})
+      document.documentElement.scrollIntoView(true);
     }
   }
 }
@@ -181,7 +221,7 @@ export default {
   .fade-enter-active, .fade-leave-active {
     transition: opacity 3.3s;
   }
-  .fade-enter, .fade-leave-to /* .fade-leave-active до версии 2.1.8 */ {
+  .fade-enter, .fade-leave-to {
     opacity: 0;
   }
 
@@ -191,15 +231,13 @@ export default {
   .slide-fade-leave-active {
     transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
   }
-  .slide-fade-enter, .slide-fade-leave-to
-  /* .slide-fade-leave-active до версии 2.1.8 */ {
+  .slide-fade-enter, .slide-fade-leave-to {
     transform: translateX(10px);
     opacity: 0;
   }
 
 
   .el-main{
-    /* padding: 0px; */
     max-width: 1170px;
     width: 100%;
     overflow: visible;
