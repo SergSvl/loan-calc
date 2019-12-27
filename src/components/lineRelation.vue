@@ -27,11 +27,11 @@ export default {
   props: {
     str1: {
       type: String,
-      default: 0
+      default: ''
     },
     str2: {
       type: String,
-      default: 0
+      default: ''
     },
     percent: {
       type: Number,
@@ -43,12 +43,6 @@ export default {
     return {
       width: 'width:'+this.percent+'%',
     }
-  },
-
-  methods: {
-    goBack() {
-
-    },
   }
 }
 </script>
@@ -60,7 +54,7 @@ export default {
 .lineBar{
   display: flex;
   width: 90%;
-  max-width: 400px;
+  max-width: 500px;
   height: 25px;
   overflow: hidden;
   margin: 0px auto 30px;
@@ -79,11 +73,11 @@ export default {
   margin: 0 auto;
 }
 .pay-percent{
-  max-width: 400px;
+  max-width: 500px;
   text-align: left;
   /* width: 50%; */
   margin: 0 auto;
-  left: 60px;
+  /* left: 60px; */
   position: relative;
 }
 .text-main {

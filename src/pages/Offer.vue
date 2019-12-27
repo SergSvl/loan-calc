@@ -11,38 +11,41 @@
           <el-col>
             <el-page-header @back="goBack" title="Назад" content=""></el-page-header>
 
-            <div class="titleForm">ВАШ ДОЛГ МОЖНО ЗАКРЫТЬ ЗА <span>{{ onClose() }} РУБ</span>!</div>
+            <div class="titleForm">ВАШ ДОЛГ МОЖНО ЗАКРЫТЬ ЗА <span>{{ close }} РУБ</span>!</div>
 
             <el-card class="box-card">
               <lineRelation
                 :str1="block1a"
                 :str2="block1b"
-                :percent="35"
+                :percent="block1perc"
               ></lineRelation>
             </el-card>
 
             <el-card class="box-card">
               <div class="box-card-title">ВАШ ДОЛГ БУДЕТ ПОГАШЕН В ТЕЧЕНИЕ 9 - 10 МЕСЯЦЕВ</div>
-              <div class="box-card-subtitle">Компания будет ежемесячно платить за вас {{ getDate() }} числа {{ getSumMonthly() }} руб</div>
+              <div class="box-card-subtitle">Компания будет ежемесячно платить за вас {{ date }} числа {{ sumMonthly }} руб</div>
               <lineRelation
                 :str1="block2a"
                 :str2="block2b"
-                :percent="35"
+                :percent="block2perc"
               ></lineRelation>
             </el-card>
 
             <el-card class="box-card">
-              <div class="box-card-title">ИТОГО СУММА ДОГОВОРА 10 349 РУБ</div>
-              <lineRelation></lineRelation>
+              <div class="box-card-title">ИТОГО СУММА ДОГОВОРА {{ contractAmount }} РУБ</div>
+              <lineRelation
+                :str1="block3a"
+                :str2="block3b"
+                :percent="block3perc"
+              ></lineRelation>
             </el-card>
 
             <el-card class="box-card">
               <div class="box-card-wrap">
                 <div class="text">Как это работает?<br> Посмотрите короткое видео, в котором мы все объясняем.</div>
                 <div class="video">
-                  <iframe width="100%" height="100%" frameborder="0" src="https://www.youtube.com/embed/0YJFzV_AFD4"></iframe>
+                  <iframe width="100%" height="100%" frameborder="0" :src="urlVideo"></iframe>
                 </div>
-
               </div>
             </el-card>
 
@@ -88,10 +91,27 @@ export default {
       logoPc: '/assets/img/logo.png',
       logoPl: '/assets/img/logo_plansh.png',
       logoMob: '/assets/img/logo_mob.png',
-      block1a: "35% заплатите вы " + this.onClose() + "руб",
-      block1b: "65% заплатит компания " + this.onClose() * 65 / 35 + " руб",
-      block2a: 'руб минимальный ежемесячный платеж',
-      block2b: 'руб в счет досрочного погашения долга',
+      urlVideo: 'https://www.youtube.com/embed/0YJFzV_AFD4',
+      basePercent: 35, // 35% - постоянный процент выплаты
+      companyPay: 10.5, // 10,5% - процент выплаты компании
+      annualService: 10000, // сумма годового обслуживания
+      returnDate: 28, // предыдущее число выплаты от указанного клиетом: date - 1
+      date: 1, // вычисленная дата ежемесячной выплаты компании
+      residual: 0,  // остаток процентов от 100 минус basePercent
+      close: 0, // сумма закрываемого долга, равная basePercent %
+      sumMonthly: 0,  // сумма ежемесячного платежа компании заданного числа
+      minPayment: 0,  // размер ежемесячного платежа
+      debtRepayment: 0, // сумма в счет досрочного погашения долга
+      block1a: '',  // строка: "35% заплатите вы X руб"
+      block1b: '',  // строка: "65% заплатит компания Y руб"
+      block1perc: 0,  // число: basePercent
+      block2a: '',  // строка: "Z руб минимальный ежемесячный платеж"
+      block2b: '',  // строка: "W руб в счет досрочного погашения долга"
+      block2perc: 0,  // число: minPayment * 100 / sumMonthly
+      block3a: '',  // строка: "annualService руб в счет договора годового обслуживания"
+      block3b: '',  // строка: "X руб для погашения долга"
+      block3perc: 0,  // число: annualService * 100 / contractAmount
+      contractAmount: 0,  // итого сумма договора
     }
   },
 
@@ -103,26 +123,73 @@ export default {
       this.$router.push({name:'offer'})
     },
     receiveConsultation(){
+    },
+    setClose(){
+      // console.log('setClose')
+      this.close = this.principalBalance * this.basePercent / 100
+    },
+    setResidual(){
+      this.residual = 100 - this.basePercent
+    },
 
+    setBlock1a(){
+      // console.log('setBlock1a')
+      this.block1a = this.basePercent + '% заплатите вы ' + this.close + ' руб'
     },
-    onClose(){
-      return this.principalBalance * 35 / 100
+    setBlock1b(){
+      // console.log('setBlock1b')
+      this.block1b = this.residual + '% заплатит компания ' + (this.close * this.residual / this.basePercent) + ' руб'
     },
-    // sum1(){
-    //   return "35% заплатите вы " + this.onClose() + "руб"
-    // },
-    // sum2(){
-    //   return "65% заплатит компания " + this.onClose() * 65 / 35 + " руб"
-    // },
+
+    setMinPayment(){
+      // console.log('setMinPayment')
+      this.minPayment = this.monthlyPayment
+    },
+    setDebtRepayment(){
+      // console.log('setDebtRepayment')
+      this.debtRepayment = this.sumMonthly - this.monthlyPayment
+    },
+
+    setBlock2a(){
+      // console.log('setBlock2a')
+      this.block2a = this.minPayment + ' руб минимальный ежемесячный платеж'
+    },
+    setBlock2b(){
+      // console.log('setBlock2b')
+      this.block2b = this.debtRepayment + ' руб в счет досрочного погашения долга'
+    },
+
+    setBlock3a(){
+      // console.log('setBlock3a')
+      this.block3a = this.annualService + ' руб в счет договора годового обслуживания'
+    },
+    setBlock3b(){
+      // console.log('setBlock3b')
+      this.block3b = this.close + ' руб для погашения долга'
+    },
+
     getDate(){
-      if (this.dateMonthlyPayment == 1){
-        return 31
+      if (this.dateMonthlyPayment == '' || this.dateMonthlyPayment == 1){
+        this.date = this.returnDate
       } else{
-        return this.dateMonthlyPayment - 1
+        this.date = this.dateMonthlyPayment - 1
       }
     },
     getSumMonthly(){
-      return this.principalBalance * 10.5 / 100
+      this.sumMonthly = this.principalBalance * this.companyPay / 100
+    },
+    setContractAmount(){
+      this.contractAmount = this.close + this.annualService
+    },
+
+    setBlock1percent(){
+      this.block1perc = this.basePercent
+    },
+    setBlock2percent(){
+      this.block2perc = this.minPayment * 100 / this.sumMonthly
+    },
+    setBlock3percent(){
+      this.block3perc = this.annualService * 100 / this.contractAmount
     }
   },
 
@@ -139,9 +206,33 @@ export default {
     ])
   },
 
+  /* метод data() вызывыется между хуками beforeCreate() и created() */
   created(){
-    // google.charts.load('current', {'packages':['corechart']});
-    // google.charts.setOnLoadCallback(this.drawChart);
+    // console.log('created:')
+    this.setClose()
+    this.getSumMonthly()
+    this.setResidual()
+    this.setBlock1a()
+    this.setBlock1b()
+    this.setBlock1percent()
+    this.getDate()
+    this.setMinPayment()
+    this.setDebtRepayment()
+    this.setBlock2a()
+    this.setBlock2b()
+    this.setBlock2percent()
+    this.setContractAmount()
+    this.setBlock3a()
+    this.setBlock3b()
+    this.setBlock3percent()
+    // console.log('this.principalBalance', this.principalBalance)
+    // console.log('this.close', this.close)
+    // console.log('this.residual', this.residual)
+    // console.log('this.block1a', this.block1a)
+    // console.log('this.block1b', this.block1b)
+    // console.log('this.minPayment', this.minPayment)
+    // console.log('this.block2a', this.block2a)
+    // console.log('this.block2b', this.block2b)
   }
 }
 </script>
@@ -211,10 +302,11 @@ export default {
   }
   .box-card-title{
     font-size: 20px;
+    margin-bottom: 20px;
   }
   .box-card-subtitle{
     font-size: 18px;
-    padding: 20px 0;
+    padding: 0 0 20px;
   }
   .radioGroupVertical{
     width: 300px;
