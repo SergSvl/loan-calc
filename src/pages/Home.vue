@@ -1,5 +1,14 @@
 <template>
+<!-- v-loading="isLoading" -->
   <div>
+    <!-- <spinner :status="spinnerStatus"
+      :color="spinnerColor"
+      :size="spinnerSize"
+      :depth="spinnerDepth"
+      :clockwise="spinnerClockwise"
+      :speed="spinnerSpeed"
+    ></spinner> -->
+
     <el-container v-responsive="['hidden-all','xl','lg']" width="1170px">
       <el-header height="90px" class="header"></el-header>
       <transition name="fade">
@@ -55,10 +64,19 @@
 
 <script>
   import {Container, Main, Header, Card, Col, Row, Button, Image } from 'element-ui';
-
+  // import Spinner from 'vue-spinner-component/src/Spinner.vue'
+  // import loading from 'vue-loading';
+  // export default {
+  //     directives: { loading },
+  //     data () {
+  //         return { isLoading: false }
+  //     }
+  // }
   export default {
     name: 'app',
+    // directives: { loading },
     components: {
+      // Spinner,
       'el-container': Container,
       'el-header': Header,
       'el-main': Main,
@@ -67,18 +85,41 @@
       'el-button': Button,
       'el-image': Image,
     },
+
     data () {
       return {
         srcPc: '/assets/img/bg.png',
         srcPl: '/assets/img/bg_plansh.png',
         srcMob: '/assets/img/bg_mob.png',
+        // spinnerStatus: true,
+        // spinnerColor: '',
+        // spinnerSize: 20,
+        // spinnerDepth: '',
+        // spinnerClockwise: true,
+        // spinnerSpeed: 10,
       }
     },
+
     methods: {
       onForm(){
         this.$router.push({name:'form'}) // алиас нужно передавать через name!
-      }
+      },
+      openFullScreenLoading() {
+        this.fullscreenLoading = true;
+      },
+      closeFullScreenLoading() {
+        this.fullscreenLoading = false;
+      },
+    },
+
+    created(){
+      // this.openFullScreenLoading()
+    },
+
+    mounted(){
+      // this.closeFullScreenLoading()
     }
+
   }
 </script>
 

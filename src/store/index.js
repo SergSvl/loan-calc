@@ -6,8 +6,8 @@
  export const store = new Vuex.Store({
     state: {
       typeCredit: '',
-      principalBalance: 1000.00,
-      monthlyPayment: 100.00,
+      principalBalance: 100000,
+      monthlyPayment: 1000,
       dateMonthlyPayment: '',
       latePayments: '',
       wasThereTrial: '',

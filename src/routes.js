@@ -36,10 +36,10 @@ export default new VueRouter({
       name: "offer",
       component: () => import('./pages/Offer')
     },
-    // {
-    //   path: '/archive/login',
-    //   // component: archiveLogin
-    //   component:  () => import('./pages/archive/Login')
-    // },
+    {
+      path: '/send',
+      name: "send",
+      component:  () => import('./pages/Send')
+    }
   ]
 })

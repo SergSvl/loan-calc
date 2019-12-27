@@ -2,7 +2,7 @@
   <el-container>
     <el-header class="header" height="auto">
       <div class="logoHeader">
-        <el-image :src="logoPc" lazy></el-image>
+        <!-- <el-image :src="logoPc" lazy></el-image> -->
       </div>
     </el-header>
     <transition name="slide-fade">
@@ -115,7 +115,7 @@
 import {Container, Header, Main, Card, Col, Row, Button, PageHeader, Image, RadioGroup, Radio,
 Input, Select, Option} from 'element-ui';
 import {store} from '../store/'
-// import {mapGetters} from 'vuex'
+import {mapGetters} from 'vuex'
 
 export default {
   name: 'app',
@@ -143,6 +143,16 @@ export default {
     }
   },
   computed: {
+    ...mapGetters([
+      'typeCredit',
+      'principalBalance',
+      'monthlyPayment',
+      'dateMonthlyPayment',
+      'latePayments',
+      // 'wasThereTrial',
+      // 'whereCase',
+      'otherLoan'
+    ]),
     typeCredit: {
       get(){
         return this.$store.state.typeCredit;
@@ -210,9 +220,20 @@ export default {
   },
   methods: {
     onOffer(){
-      this.$router.push({name:'offer'})
-      document.documentElement.scrollIntoView(true);
-    }
+      if (this.typeCredit != '' && this.principalBalance != '' && this.monthlyPayment != ''
+          && this.dateMonthlyPayment != '' && this.latePayments != '' && this.otherLoan != ''){
+        this.$router.push({name:'offer'})
+        document.documentElement.scrollIntoView(true);
+      } else {
+        this.notReady()
+      }
+    },
+    notReady() {
+      this.$notify.warning({
+        title: 'Внимание',
+        message: 'Нужно заполнить все поля'
+      });
+    },
   }
 }
 </script>
@@ -242,11 +263,14 @@ export default {
     width: 100%;
     overflow: visible;
     margin: 0 auto;
+    margin: 108px auto 0
   }
   .header{
     width: 100%;
     padding: 10px 0;
     background-color: #f7dc8a;
+    position: fixed;
+    z-index: 1000;
   }
   .titleForm{
     font-size: 30px;
@@ -255,10 +279,13 @@ export default {
     margin: 25px 0;
   }
   .logoHeader{
-    padding: 0 0 0 15px;
+    margin: 0 0 0 15px;
     max-width: 1170px;
-    margin: 0 auto;
     height: 88px;
+    background-color: transparent;
+    background-image: url(/assets/img/logo.png);
+    background-position-x: left;
+    background-repeat: no-repeat;
   }
   .wrapBtnCalculate{
     text-align: center;
@@ -267,6 +294,10 @@ export default {
   .btnCalculate{
     background-color: #f7dc8a;
     font-size: 18px;
+  }
+  .btnCalculate:hover {
+    color: #fff; /*#409EFF;*/
+    border-color: #c6e2ff;
   }
   .box-card{
     text-align: center;
@@ -324,7 +355,11 @@ export default {
 
   /* Планшет */
   @media screen and (max-width: 992px) {
-
+    .logoHeader{
+      background-image: url(/assets/img/logo_mob.png);
+        margin: 0 0 0 10px;
+      height: 46px;
+    }
   }
 
   /* Мобильник */
@@ -338,6 +373,9 @@ export default {
     }
     .radioGroupVertical{
       width: auto;
+    }
+    .el-main{
+      margin: 54px auto 0
     }
   }
 </style>

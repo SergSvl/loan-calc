@@ -8,6 +8,7 @@ import responsive from 'vue-responsive'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faCircle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { Notification } from 'element-ui';
 
 library.add(faCircle)
 
@@ -15,6 +16,7 @@ Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.use(Vuex);
 Vue.use(VueRouter)
 Vue.use(responsive)
+Vue.prototype.$notify = Notification;
 
 new Vue({
   el: '#app',

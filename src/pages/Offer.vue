@@ -2,7 +2,7 @@
   <el-container>
     <el-header class="header" height="auto">
       <div class="logoHeader">
-        <el-image :src="logoPc" lazy></el-image>
+        <!-- <el-image :src="logoPc" lazy></el-image> -->
       </div>
     </el-header>
     <transition name="slide-fade">
@@ -11,7 +11,7 @@
           <el-col>
             <el-page-header @back="goBack" title="Назад" content=""></el-page-header>
 
-            <div class="titleForm">ВАШ ДОЛГ МОЖНО ЗАКРЫТЬ ЗА <span>{{ close }} РУБ</span>!</div>
+            <div class="titleForm">ВАШ ДОЛГ МОЖНО ЗАКРЫТЬ ЗА <span>{{ format(close) }} РУБ</span>!</div>
 
             <el-card class="box-card">
               <lineRelation
@@ -23,7 +23,7 @@
 
             <el-card class="box-card">
               <div class="box-card-title">ВАШ ДОЛГ БУДЕТ ПОГАШЕН В ТЕЧЕНИЕ 9 - 10 МЕСЯЦЕВ</div>
-              <div class="box-card-subtitle">Компания будет ежемесячно платить за вас {{ date }} числа {{ sumMonthly }} руб</div>
+              <div class="box-card-subtitle">Компания будет ежемесячно платить за вас {{ date }} числа {{ format(sumMonthly) }} руб</div>
               <lineRelation
                 :str1="block2a"
                 :str2="block2b"
@@ -32,7 +32,7 @@
             </el-card>
 
             <el-card class="box-card">
-              <div class="box-card-title">ИТОГО СУММА ДОГОВОРА {{ contractAmount }} РУБ</div>
+              <div class="box-card-title">ИТОГО СУММА ДОГОВОРА {{ format(contractAmount) }} РУБ</div>
               <lineRelation
                 :str1="block3a"
                 :str2="block3b"
@@ -44,7 +44,7 @@
               <div class="box-card-wrap">
                 <div class="text">Как это работает?<br> Посмотрите короткое видео, в котором мы все объясняем.</div>
                 <div class="video">
-                  <iframe width="100%" height="100%" frameborder="0" :src="urlVideo"></iframe>
+                  <iframe width="100%" height="100%" :tabindex="-1" frameborder="0" :src="urlVideo" allowfullscreen></iframe>
                 </div>
               </div>
             </el-card>
@@ -116,6 +116,9 @@ export default {
   },
 
   methods: {
+    format(number){
+      return accounting.formatNumber(number);
+    },
     goBack() {
       this.$router.push({name:'form'})
     },
@@ -123,6 +126,7 @@ export default {
       this.$router.push({name:'offer'})
     },
     receiveConsultation(){
+      this.$router.push({name:'send'})
     },
     setClose(){
       // console.log('setClose')
@@ -134,11 +138,11 @@ export default {
 
     setBlock1a(){
       // console.log('setBlock1a')
-      this.block1a = this.basePercent + '% заплатите вы ' + this.close + ' руб'
+      this.block1a = this.basePercent + '% заплатите вы ' + this.format(this.close) + ' руб'
     },
     setBlock1b(){
       // console.log('setBlock1b')
-      this.block1b = this.residual + '% заплатит компания ' + (this.close * this.residual / this.basePercent) + ' руб'
+      this.block1b = this.residual + '% заплатит компания ' + this.format(this.close * this.residual / this.basePercent) + ' руб'
     },
 
     setMinPayment(){
@@ -152,20 +156,20 @@ export default {
 
     setBlock2a(){
       // console.log('setBlock2a')
-      this.block2a = this.minPayment + ' руб минимальный ежемесячный платеж'
+      this.block2a = this.format(this.minPayment) + ' руб минимальный ежемесячный платеж'
     },
     setBlock2b(){
       // console.log('setBlock2b')
-      this.block2b = this.debtRepayment + ' руб в счет досрочного погашения долга'
+      this.block2b = this.format(this.debtRepayment) + ' руб в счет досрочного погашения долга'
     },
 
     setBlock3a(){
       // console.log('setBlock3a')
-      this.block3a = this.annualService + ' руб в счет договора годового обслуживания'
+      this.block3a = this.format(this.annualService) + ' руб в счет договора годового обслуживания'
     },
     setBlock3b(){
       // console.log('setBlock3b')
-      this.block3b = this.close + ' руб для погашения долга'
+      this.block3b = this.format(this.close) + ' руб для погашения долга'
     },
 
     getDate(){
@@ -190,6 +194,23 @@ export default {
     },
     setBlock3percent(){
       this.block3perc = this.annualService * 100 / this.contractAmount
+    },
+    setFormatSettings(){
+      // Settings object that controls default parameters for library methods:
+      accounting.settings = {
+        currency: {
+          symbol : "$",   // default currency symbol is '$'
+          format: "%s%v", // controls output: %s = symbol, %v = value/number (can be object: see below)
+          decimal : ".",  // decimal point separator
+          thousand: ",",  // thousands separator
+          precision : 2   // decimal places
+        },
+        number: {
+          precision : 0,  // default precision on numbers is 0
+          thousand: " ",
+          decimal : "."
+        }
+      }
     }
   },
 
@@ -209,6 +230,7 @@ export default {
   /* метод data() вызывыется между хуками beforeCreate() и created() */
   created(){
     // console.log('created:')
+    this.setFormatSettings()
     this.setClose()
     this.getSumMonthly()
     this.setResidual()
@@ -261,11 +283,14 @@ export default {
     width: 100%;
     overflow: visible;
     margin: 0 auto;
+    margin: 108px auto 0
   }
   .header{
     width: 100%;
     padding: 10px 0;
     background-color: #f7dc8a;
+    position: fixed;
+    z-index: 1000;
   }
   .titleForm{
     font-size: 30px;
@@ -279,10 +304,13 @@ export default {
     border-radius: .2em;
   }
   .logoHeader{
-    padding: 0 0 0 15px;
+    margin: 0 0 0 15px;
     max-width: 1170px;
-    margin: 0 auto;
     height: 88px;
+    background-color: transparent;
+    background-image: url(/assets/img/logo.png);
+    background-position-x: left;
+    background-repeat: no-repeat;
   }
   .wrapBtnCalculate{
     text-align: center;
@@ -292,7 +320,11 @@ export default {
     background-color: #f7dc8a;
     font-size: 18px;
   }
-  .btnCalculate button {
+  .btnCalculate:hover {
+    color: #fff; /*#409EFF;*/
+    border-color: #c6e2ff;
+  }
+  .wrapBtnCalculate button {
     margin: 0 0 20px;
   }
   .box-card{
@@ -366,7 +398,11 @@ export default {
 
   /* Планшет */
   @media screen and (max-width: 992px) {
-
+    .logoHeader{
+      background-image: url(/assets/img/logo_mob.png);
+        margin: 0 0 0 10px;
+      height: 46px;
+    }
   }
 
   /* Мобильник */
@@ -390,6 +426,9 @@ export default {
     }
     .video{
       margin: 0 auto;
+    }
+    .el-main{
+      margin: 54px auto 0
     }
   }
 </style>
