@@ -221,7 +221,7 @@
     .el-image {
       margin: -70px auto;
     }
-    .titleHome[data-v-5a90ec03] {
+    .titleHome {
       font-size: 30px;
       width: 670px;
       top: 30px;
@@ -245,7 +245,7 @@
     .header{
       background-image: url(/assets/img/logo_mob.png);
     }
-    .titleHome[data-v-5a90ec03] {
+    .titleHome {
       font-size: 30px;
       width: 100%;
       top: -30px;
