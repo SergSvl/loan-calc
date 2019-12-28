@@ -88,15 +88,12 @@ export default {
   },
   data () {
     return {
-      logoPc: '/assets/img/logo.png',
-      logoPl: '/assets/img/logo_plansh.png',
-      logoMob: '/assets/img/logo_mob.png',
-      urlVideo: 'https://www.youtube.com/embed/0YJFzV_AFD4',
-      basePercent: 35, // 35% - постоянный процент выплаты
-      companyPay: 10.5, // 10,5% - процент выплаты компании
-      annualService: 10000, // сумма годового обслуживания
-      returnDate: 28, // предыдущее число выплаты от указанного клиетом: date - 1
-      date: 1, // вычисленная дата ежемесячной выплаты компании
+      urlVideo: user_config.youtube_video, //'https://www.youtube.com/embed/0YJFzV_AFD4',
+      basePercent: user_config.basePercent, //35, // 35% - постоянный процент выплаты
+      companyPayment: user_config.companyPayment, //10.5, // 10,5% - процент выплаты компании
+      annualService: user_config.annualService, //10000, // сумма годового обслуживания
+      returnDate: user_config.returnDate, //28, // предыдущее число выплаты, если клиет указал 1-е число
+      date: 1, // вычисляемая дата ежемесячной выплаты компании
       residual: 0,  // остаток процентов от 100 минус basePercent
       close: 0, // сумма закрываемого долга, равная basePercent %
       sumMonthly: 0,  // сумма ежемесячного платежа компании заданного числа
@@ -180,7 +177,7 @@ export default {
       }
     },
     getSumMonthly(){
-      this.sumMonthly = this.principalBalance * this.companyPay / 100
+      this.sumMonthly = this.principalBalance * this.companyPayment / 100
     },
     setContractAmount(){
       this.contractAmount = this.close + this.annualService

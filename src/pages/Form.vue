@@ -137,9 +137,6 @@ export default {
   },
   data () {
     return {
-      logoPc: '/assets/img/logo.png',
-      logoPl: '/assets/img/logo_plansh.png',
-      logoMob: '/assets/img/logo_mob.png',
     }
   },
   computed: {
@@ -149,8 +146,6 @@ export default {
       'monthlyPayment',
       'dateMonthlyPayment',
       'latePayments',
-      // 'wasThereTrial',
-      // 'whereCase',
       'otherLoan'
     ]),
     typeCredit: {

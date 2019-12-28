@@ -15,7 +15,7 @@
         <el-main>
           <el-row>
             <el-col :span="24">
-              <div class="titleHome">Закрой свою задолженность<br><span>за 35%</span> от суммы</div>
+              <div class="titleHome">Закрой свою задолженность<br><span>за {{basePercent}}%</span> от суммы</div>
               <transition name="fadeImg" mode="out-in">
                 <el-image :src="srcPc" lazy></el-image>
               </transition>
@@ -32,7 +32,7 @@
         <el-main>
           <el-row>
             <el-col :span="24">
-              <div class="titleHome">Закрой свою задолженность<br><span>за 35%</span> от суммы</div>
+              <div class="titleHome">Закрой свою задолженность<br><span>за {{basePercent}}%</span> от суммы</div>
               <transition name="fadeImg">
                 <el-image :src="srcPl" lazy></el-image>
               </transition>
@@ -49,7 +49,7 @@
         <el-main>
           <el-row>
             <el-col :span="24">
-              <div class="titleHome">Закрой свою задолженность<br><span>за 35%</span> от суммы</div>
+              <div class="titleHome">Закрой свою задолженность<br><span>за {{basePercent}}%</span> от суммы</div>
               <transition name="fadeImg">
                 <el-image :src="srcMob" lazy></el-image>
               </transition>
@@ -74,6 +74,10 @@
   // }
   export default {
     name: 'app',
+    directives: {
+		  // the global variable is 'index.vueResponsive'
+      responsive: index.vueResponsive
+    },
     // directives: { loading },
     components: {
       // Spinner,
@@ -91,6 +95,7 @@
         srcPc: '/assets/img/bg.png',
         srcPl: '/assets/img/bg_plansh.png',
         srcMob: '/assets/img/bg_mob.png',
+        basePercent: user_config.basePercent,
         // spinnerStatus: true,
         // spinnerColor: '',
         // spinnerSize: 20,
@@ -127,7 +132,7 @@
   .fade-enter-active, .fade-leave-active {
     transition: opacity .3s;
   }
-  .fade-enter, .fade-leave-to /* .fade-leave-active до версии 2.1.8 */ {
+  .fade-enter, .fade-leave-to {
     opacity: 0;
   }
   .el-container{
@@ -158,7 +163,7 @@
     display: table;
     margin: 0 auto;
   }
-  .el-button{
+  .el-button {
     position: absolute;
     left: 0px;
     top: 355px;

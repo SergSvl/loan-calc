@@ -31,11 +31,6 @@
                 <el-form-item label="Телефон" prop="phone">
                   <el-input v-model="sendForm.phone"></el-input>
                 </el-form-item>
-
-                <!-- <el-form-item>
-                  <el-button type="primary" @click="submit('sendForm')">Отправить</el-button>
-                  <!-- <el-button @click="resetForm('ruleForm')">Reset</el-button> -- >
-                </el-form-item> -->
               </el-form>
 
               <el-form id="mailForm2"
@@ -56,14 +51,8 @@
                   <el-input v-model="sendForm.phone"></el-input>
                 </el-form-item>
               </el-form>
-                <!-- <el-form-item> -->
-                  <el-button for="mailForm1, mailForm2" type="primary" class="btnSend" @click="submit('sendForm')">Отправить</el-button>
-                <!-- </el-form-item> -->
+              <el-button for="mailForm1, mailForm2" type="primary" class="btnSend" @click="submit('sendForm')">Отправить</el-button>
             </el-card>
-
-            <!-- <div class="wrapBtnSend">
-              <el-button @click="onSend" class="btnSend" type="">Отправить</el-button>
-            </div> -->
           </el-col>
         </el-row>
       </el-main>
@@ -72,13 +61,17 @@
 </template>
 
 <script>
-import {Container, Header, Main, Card, Col, Row, Button, Input, Form, FormItem} from 'element-ui';
+import {Container, Header, Main, Card, Col, Row, Button, Input, Form, FormItem} from 'element-ui'
 import {store} from '../store/'
 import {mapGetters} from 'vuex'
-import {send} from '../api';
+import {send} from '../api'
 
 export default {
   name: 'app',
+  directives: {
+    // the global variable is 'index.vueResponsive'
+    responsive: index.vueResponsive
+  },
   components: {
     'el-container': Container,
     'el-header': Header,
@@ -94,9 +87,6 @@ export default {
 
   data () {
     return {
-      logoPc: '/assets/img/logo.png',
-      logoPl: '/assets/img/logo_plansh.png',
-      logoMob: '/assets/img/logo_mob.png',
       sendForm: {
         name: '',
         phone: ''
@@ -129,25 +119,28 @@ export default {
     submit(formName){
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
-          // alert('submit!');
           let data = {
-            name: this.sendForm.name,
-            phone: this.sendForm.phone,
-            typeCredit: this.typeCredit,
-            principalBalance: this.principalBalance,
-            monthlyPayment: this.monthlyPayment,
-            dateMonthlyPayment: this.dateMonthlyPayment,
-            latePayments: this.latePayments,
-            wasThereTrial: this.wasThereTrial,
-            whereCase: this.whereCase,
-            otherLoan: this.otherLoan
+            zaymy: JSON.stringify({
+              name: this.sendForm.name,
+              phone: this.sendForm.phone,
+              typeCredit: this.typeCredit,
+              principalBalance: this.principalBalance,
+              monthlyPayment: this.monthlyPayment,
+              dateMonthlyPayment: this.dateMonthlyPayment,
+              latePayments: this.latePayments,
+              wasThereTrial: this.wasThereTrial,
+              whereCase: this.whereCase,
+              otherLoan: this.otherLoan
+            })
           }
           try{
             let res = await send(data);
-            if (res.result){
-              // console.log('Ответ: ', res);
-              this.mailSuccess()
+            console.log('Ответ: ', res);
+            if (res.status){
+              this.mailSuccess(res.result)
               this.$router.push({name:'home'})
+            } else {
+              this.mailError(res.error);
             }
           } catch(err){
             console.log('Ошибка: ', err);
@@ -169,16 +162,16 @@ export default {
         message: 'Укажите Ваш телефон'
       });
     },
-    mailError() {
+    mailError(error) {
       this.$notify.error({
         title: 'Ошибка',
-        message: 'Данные не отправлены'
+        message: error
       });
     },
-    mailSuccess() {
+    mailSuccess(result) {
       this.$notify({
         title: 'Успешно',
-        message: 'Данные отправлены',
+        message: result,
         type: 'success'
       });
     },
@@ -269,11 +262,6 @@ export default {
     font-size: 16px;
   }
 
-
-  .box-card-wrap{
-    /* display: flex; */
-    margin: 0 auto;
-  }
   .box-card-input-title{
     margin: 20px 20px 20px 0;
     width: 210px;
@@ -292,10 +280,6 @@ export default {
   .el-form > label{
     width: 300px;
   }
-  .el-form > div > div > div {
-    /* margin-left: 300px; */
-  }
-
 
   /* ПК */
   @media screen and (max-width: 1200px) {

@@ -13,6 +13,9 @@
       wasThereTrial: '',
       whereCase: '',
       otherLoan: '',
+      // logoPc: '/assets/img/logo.png',
+      // logoPl: '/assets/img/logo_plansh.png',
+      // logoMob: '/assets/img/logo_mob.png',
     },
     getters: {
       typeCredit(state){
@@ -39,6 +42,15 @@
       otherLoan(state){
         return state.otherLoan;
       },
+      // logoPc(state){
+      //   return state.logoPc;
+      // },
+      // logoPl(state){
+      //   return state.logoPl;
+      // },
+      // logoMob(state){
+      //   return state.logoMob;
+      // },
     },
     mutations: {
       setTypeCredit(state, val){
