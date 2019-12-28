@@ -68,10 +68,6 @@ import {send} from '../api'
 
 export default {
   name: 'app',
-  directives: {
-    // the global variable is 'index.vueResponsive'
-    responsive: index.vueResponsive
-  },
   components: {
     'el-container': Container,
     'el-header': Header,
