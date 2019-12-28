@@ -131,7 +131,7 @@ export default {
           }
           try{
             let res = await send(data);
-            console.log('Ответ: ', res);
+            // console.log('Ответ: ', res);
             if (res.status){
               this.mailSuccess(res.result)
               this.$router.push({name:'home'})

@@ -1,8 +1,6 @@
 import axios from 'axios';
 
 let server = axios.create({
-  // withCredentials: true,
-  // baseURL: 'http://jantrish/calc'
   baseURL: user_config.baseURL
 });
 
