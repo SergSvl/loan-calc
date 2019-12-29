@@ -64,7 +64,7 @@ module.exports = {
     noInfo: true,
     overlay: true,
     proxy: { // добавляем прокси для обхода ситуации междоменного запроса CORS
-      '/calc/**': {
+      '/mail/**': {
         target: 'http://jantrish/',
         secure: false,
         changeOrigin: true
@@ -83,7 +83,7 @@ if (process.env.NODE_ENV === 'production') {
   module.exports.plugins = (module.exports.plugins || []).concat([
     new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: '"production"'
+        NODE_ENV: '"production"',
       }
     }),
     // new webpack.optimize.UglifyJsPlugin({

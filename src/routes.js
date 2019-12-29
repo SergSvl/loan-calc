@@ -6,7 +6,7 @@ export default new VueRouter({
   mode: 'history',
   routes: [
     {
-      path: '',
+      path: user_config.subFolder+'',
       name: "home", // это имя подставляется в router-link в тэг :to={name:"home"}
       component: Home
     },
@@ -15,17 +15,17 @@ export default new VueRouter({
       component: E404
     },
     {
-      path: '/form',
+      path: user_config.subFolder+'/form',
       name: "form",
       component: () => import('./pages/Form')
     },
     {
-      path: '/offer',
+      path: user_config.subFolder+'/offer',
       name: "offer",
       component: () => import('./pages/Offer')
     },
     {
-      path: '/send',
+      path: user_config.subFolder+'/send',
       name: "send",
       component:  () => import('./pages/Send')
     }
