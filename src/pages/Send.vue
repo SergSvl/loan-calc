@@ -197,12 +197,14 @@ export default {
     max-width: 1170px;
     width: 100%;
     overflow: visible;
-    margin: 0 auto;
+    margin: 108px auto 0
   }
   .header{
     width: 100%;
     padding: 10px 0;
     background-color: #f7dc8a;
+    position: fixed;
+    z-index: 1000;
   }
   .titleForm{
     font-size: 20px;
