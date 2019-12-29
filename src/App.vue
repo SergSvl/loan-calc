@@ -1,7 +1,5 @@
 <template>
-  <!-- <transition name="fade"> -->
-    <router-view></router-view>
-  <!-- </transition> -->
+  <router-view></router-view>
 </template>
 
 <script>
@@ -38,11 +36,4 @@ body{
   font-weight: 100;
   font-family: Gilroy-Bold;
 }
-
-/* .fade-enter-active, .fade-leave-active {
-  transition: opacity .3s;
-}
-.fade-enter, .fade-leave-to /* .fade-leave-active до версии 2.1.8 * / {
-  opacity: 0;
-} */
 </style>

@@ -1,11 +1,9 @@
 <template>
   <el-container>
     <el-header class="header" height="auto">
-      <div class="logoHeader">
-        <!-- <el-image :src="logoPc" lazy></el-image> -->
-      </div>
+      <div class="logoHeader"></div>
     </el-header>
-    <transition name="slide-fade">
+    <transition name="fade" mode="out-in" appear>
       <el-main>
         <el-row>
           <el-col>
@@ -258,20 +256,9 @@ export default {
 
 <style scoped>
   .fade-enter-active, .fade-leave-active {
-    transition: opacity 3.3s;
+    transition: opacity .3s;
   }
   .fade-enter, .fade-leave-to {
-    opacity: 0;
-  }
-
-  .slide-fade-enter-active {
-    transition: all .3s ease;
-  }
-  .slide-fade-leave-active {
-    transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
-  }
-  .slide-fade-enter, .slide-fade-leave-to {
-    transform: translateX(10px);
     opacity: 0;
   }
 
@@ -389,9 +376,9 @@ export default {
   }
 
   /* ПК */
-  @media screen and (max-width: 1200px) {
+  /* @media screen and (max-width: 1200px) {
 
-  }
+  } */
 
   /* Планшет */
   @media screen and (max-width: 992px) {

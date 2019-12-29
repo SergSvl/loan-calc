@@ -5,13 +5,12 @@
         <!-- <el-image :src="logoPc" lazy></el-image> -->
       </div>
     </el-header>
-    <transition name="slide-fade">
+    <transition name="fade" mode="out-in" appear>
       <el-main>
         <el-row>
           <el-col>
             <el-card class="box-card">
               <div class="titleForm">Страница не найдена</div>
-
               <el-button type="primary" class="btnSend" @click="toHome">На главную</el-button>
             </el-card>
           </el-col>
@@ -35,11 +34,6 @@ export default {
     'el-row': Row,
     'el-button': Button
   },
-  data(){
-    return {
-
-    }
-  },
   methods: {
     toHome(){
       this.$router.push({name:'home'})
@@ -49,6 +43,12 @@ export default {
 </script>
 
 <style scoped>
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .3s;
+  }
+  .fade-enter, .fade-leave-to {
+    opacity: 0;
+  }
   .el-main{
     max-width: 1170px;
     width: 100%;

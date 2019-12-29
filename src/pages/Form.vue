@@ -1,11 +1,9 @@
 <template>
   <el-container>
     <el-header class="header" height="auto">
-      <div class="logoHeader">
-        <!-- <el-image :src="logoPc" lazy></el-image> -->
-      </div>
+      <div class="logoHeader"></div>
     </el-header>
-    <transition name="slide-fade">
+    <transition name="fade" mode="out-in" appear>
       <el-main>
         <el-row>
           <el-col>
@@ -27,35 +25,35 @@
 
             <el-card class="box-card">
 
-                <div class="box-card-wrap">
-                  <span class="box-card-input-title">Остаток основного долга</span>
-                  <el-input class="box-card-input"
-                    placeholder="Остаток основного долга"
-                    v-model="principalBalance"
-                    clearable>
-                  </el-input>
-                </div>
+              <div class="box-card-wrap">
+                <span class="box-card-input-title">Остаток основного долга</span>
+                <el-input class="box-card-input"
+                  placeholder="Остаток основного долга"
+                  v-model="principalBalance"
+                  clearable>
+                </el-input>
+              </div>
 
-                <div class="box-card-wrap">
-                  <span class="box-card-input-title">Размер ежемесячного платежа</span>
-                  <el-input class="box-card-input"
-                    placeholder="Размер ежемесячного платежа"
-                    v-model="monthlyPayment"
-                    clearable>
-                  </el-input>
-                </div>
+              <div class="box-card-wrap">
+                <span class="box-card-input-title">Размер ежемесячного платежа</span>
+                <el-input class="box-card-input"
+                  placeholder="Размер ежемесячного платежа"
+                  v-model="monthlyPayment"
+                  clearable>
+                </el-input>
+              </div>
 
-                <div class="box-card-wrap">
-                  <span class="box-card-input-title">Дата ежемесячного платежа</span>
-                  <el-select v-model="dateMonthlyPayment" placeholder="Выберите число">
-                    <el-option
-                      v-for="item in 31"
-                      :key="item"
-                      :label="item"
-                      :value="item">
-                    </el-option>
-                  </el-select>
-                </div>
+              <div class="box-card-wrap">
+                <span class="box-card-input-title">Дата ежемесячного платежа</span>
+                <el-select v-model="dateMonthlyPayment" placeholder="Выберите число">
+                  <el-option
+                    v-for="item in 31"
+                    :key="item"
+                    :label="item"
+                    :value="item">
+                  </el-option>
+                </el-select>
+              </div>
             </el-card>
 
             <el-card class="box-card">
@@ -235,23 +233,11 @@ export default {
 
 <style scoped>
   .fade-enter-active, .fade-leave-active {
-    transition: opacity 3.3s;
+    transition: opacity .3s;
   }
   .fade-enter, .fade-leave-to {
     opacity: 0;
   }
-
-  .slide-fade-enter-active {
-    transition: all .3s ease;
-  }
-  .slide-fade-leave-active {
-    transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
-  }
-  .slide-fade-enter, .slide-fade-leave-to {
-    transform: translateX(10px);
-    opacity: 0;
-  }
-
 
   .el-main{
     max-width: 1170px;
@@ -316,9 +302,7 @@ export default {
     font-size: 16px;
   }
 
-
   .box-card-wrap{
-    /* display: flex; */
     margin: 0 auto;
   }
   .box-card-input-title{
@@ -344,9 +328,9 @@ export default {
   }
 
   /* ПК */
-  @media screen and (max-width: 1200px) {
+  /* @media screen and (max-width: 1200px) {
 
-  }
+  } */
 
   /* Планшет */
   @media screen and (max-width: 992px) {

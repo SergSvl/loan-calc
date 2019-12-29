@@ -1,13 +1,25 @@
 <template>
   <div>
+    <loading :active.sync="isLoading"
+      :can-cancel="false"
+      :is-full-page="true"
+      color="#f7dc8a"
+      :height="128"
+      :width="128"
+      :opacity="0.9"
+    ></loading>
+
+    <!-- <button @click.prevent="doAjax">fetch Data</button> -->
+
     <el-container v-responsive="['hidden-all','xl','lg']" width="1170px">
       <el-header height="90px" class="header"></el-header>
-      <transition name="fade">
+
+      <transition name="fade" mode="out-in" appear>
         <el-main>
           <el-row>
             <el-col :span="24">
               <div class="titleHome">Закрой свою задолженность<br><span>за {{basePercent}}%</span> от суммы</div>
-              <transition name="fadeImg" mode="out-in">
+              <transition name="fadeImg" mode="out-in" appear>
                 <el-image :src="srcPc" lazy></el-image>
               </transition>
               <el-button @click="onForm" type=""></el-button>
@@ -19,12 +31,12 @@
 
     <el-container v-responsive="['hidden-all','md','sm']" width="992px">
       <el-header height="90px" class="header"></el-header>
-      <transition name="fade">
+      <transition name="fade" mode="out-in" appear>
         <el-main>
           <el-row>
             <el-col :span="24">
               <div class="titleHome">Закрой свою задолженность<br><span>за {{basePercent}}%</span> от суммы</div>
-              <transition name="fadeImg">
+              <transition name="fadeImg" mode="out-in" appear>
                 <el-image :src="srcPl" lazy></el-image>
               </transition>
               <el-button @click="onForm" type=""></el-button>
@@ -36,12 +48,12 @@
 
     <el-container v-responsive="['hidden-all','xs']" width="320px">
       <el-header height="90px" class="header"></el-header>
-      <transition name="fade">
+      <transition name="fade" mode="out-in" appear>
         <el-main>
           <el-row>
             <el-col :span="24">
               <div class="titleHome">Закрой свою задолженность<br><span>за {{basePercent}}%</span> от суммы</div>
-              <transition name="fadeImg">
+              <transition name="fadeImg" mode="out-in" appear>
                 <el-image :src="srcMob" lazy></el-image>
               </transition>
               <el-button @click="onForm" type=""></el-button>
@@ -55,6 +67,9 @@
 
 <script>
   import {Container, Main, Header, Card, Col, Row, Button, Image } from 'element-ui';
+  import Loading from 'vue-loading-overlay';
+  import 'vue-loading-overlay/dist/vue-loading.css';
+
   export default {
     name: 'app',
     components: {
@@ -65,6 +80,7 @@
       'el-row': Row,
       'el-button': Button,
       'el-image': Image,
+      Loading
     },
 
     data () {
@@ -73,6 +89,7 @@
         srcPl: '/assets/img/bg_plansh.png',
         srcMob: '/assets/img/bg_mob.png',
         basePercent: user_config.basePercent,
+        isLoading: false,
       }
     },
 
@@ -86,20 +103,50 @@
       closeFullScreenLoading() {
         this.fullscreenLoading = false;
       },
+      // doAjax() {
+      //   this.isLoading = true;
+      //   // simulate AJAX
+      //   setTimeout(() => {
+      //     this.isLoading = false
+      //   },5000)
+      // },
+    },
+
+    created(){
+      this.isLoading = true;
+    },
+
+    mounted(){
+      this.isLoading = false;
+      // console.log('mounted')
     }
+
   }
 </script>
 
 <style scoped>
-  .fade-enter-active, .fade-leave-active {
+  .fade-enter-active {
+    transition: opacity 2.5s ease;
+  }
+  .fade-leave-active {
     transition: opacity .3s;
   }
   .fade-enter, .fade-leave-to {
     opacity: 0;
   }
+
+  .fadeImg-enter-active {
+    transition: opacity 3.5s;
+  }
+  .fadeImg-leave-active {
+    transition: opacity 0.5s;
+  }
+  .fadeImg-enter, .fadeImg-leave-to {
+    opacity: 0;
+  }
+
   .el-container{
     max-width: 1170px;
-    /* width: fit-content; */
     text-align: center;
     margin: 0 auto;
     padding: 15px;
@@ -145,7 +192,6 @@
     background-image: url("/assets/img/btn_hover.png");
   }
   .el-main{
-    /* background-image: url(/assets/img/bg.png); */
     padding: 0px;
     overflow: visible;
   }
@@ -155,13 +201,6 @@
     background-image: url(/assets/img/logo.png);
     background-position-x: left;
     background-repeat: no-repeat;
-  }
-
-  .fadeImg-enter-active, .fadeImg-leave-active {
-    transition: opacity 0.3s;
-  }
-  .fadeImg-enter, .fadeImg-leave-to /* .fade-leave-active до версии 2.1.8 */ {
-    opacity: 0;
   }
 
   /* ПК */
