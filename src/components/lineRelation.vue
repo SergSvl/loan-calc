@@ -4,20 +4,26 @@
       <div class="lineBar-value" :style="width"></div>
     </div>
     <div class="pay-percent">
-        <p class="percentWrap">
-          <font-awesome-icon
-            :icon="['fas', 'circle']"
-            :mask="['far', '']"
-            style="color: #8BC34A; font-size: 25px;"
-          />
-          &nbsp; {{ str1 }}
-        </p>
-        <p class="percentWrap">
-          <font-awesome-icon far icon="circle"
-            style="color: #03a9f4; font-size: 25px;"
-          />
-          &nbsp; {{ str2 }}
-        </p>
+      <p class="percentWrap">
+        <font-awesome-icon
+          :icon="['fas', 'circle']"
+          :mask="['far', '']"
+          style="color: #8BC34A; font-size: 25px;"
+        />
+        &nbsp; {{ str1 }}
+      </p>
+      <p class="percentWrap" v-if="str3">
+        <font-awesome-icon far icon="circle"
+          style="color: #8BC34A; font-size: 25px;"
+        />
+        &nbsp; {{ str3 }}
+      </p>
+      <p class="percentWrap">
+        <font-awesome-icon far icon="circle"
+          style="color: #03a9f4; font-size: 25px;"
+        />
+        &nbsp; {{ str2 }}
+      </p>
     </div>
   </div>
 </template>
@@ -30,6 +36,10 @@ export default {
       default: ''
     },
     str2: {
+      type: String,
+      default: ''
+    },
+    str3: {
       type: String,
       default: ''
     },

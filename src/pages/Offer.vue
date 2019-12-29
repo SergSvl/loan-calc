@@ -1,7 +1,11 @@
 <template>
   <el-container>
     <el-header class="header" height="auto">
-      <div class="logoHeader"></div>
+      <div class="logoHeader">
+        <div class="wrapLogo">
+          <div class="logo"></div>
+        </div>
+      </div>
     </el-header>
     <transition name="fade" mode="out-in" appear>
       <el-main>
@@ -28,19 +32,21 @@
                 :percent="block2perc"
               ></lineRelation>
             </el-card>
-
             <el-card class="box-card">
               <div class="box-card-title">ИТОГО СУММА ДОГОВОРА {{ format(contractAmount) }} РУБ</div>
               <lineRelation
                 :str1="block3a"
                 :str2="block3b"
+                :str3="block3c"
                 :percent="block3perc"
               ></lineRelation>
             </el-card>
 
             <el-card class="box-card">
+              <div class="box-card-title">КАК ЭТО РАБОТАЕТ?</div>
+              <el-image :src="shema" lazy></el-image>
               <div class="box-card-wrap">
-                <div class="text">Как это работает?<br> Посмотрите короткое видео, в котором мы все объясняем.</div>
+                <div class="text">Посмотрите короткое видео, в котором мы все объясняем.</div>
                 <div class="video">
                   <iframe width="100%" height="100%" :tabindex="-1" frameborder="0" :src="urlVideo" allowfullscreen></iframe>
                 </div>
@@ -105,8 +111,11 @@ export default {
       block2perc: 0,  // число: minPayment * 100 / sumMonthly
       block3a: '',  // строка: "annualService руб в счет договора годового обслуживания"
       block3b: '',  // строка: "X руб для погашения долга"
+      block3c: '',  // строка: "R руб офисный сбор"
       block3perc: 0,  // число: annualService * 100 / contractAmount
-      contractAmount: 0,  // итого сумма договора
+      contractAmount: 0, // итого сумма договора
+      officeFee: 0, // офисный сбор в рублях
+      shema: './assets/img/shema.jpg',
     }
   },
 
@@ -166,6 +175,10 @@ export default {
       // console.log('setBlock3b')
       this.block3b = this.format(this.close) + ' руб для погашения долга'
     },
+    setBlock3с(){
+      this.block3c = this.format(this.principalBalance / 100) + ' руб офисный сбор'
+      // console.log('setBlock3с', this.block3c)
+    },
 
     getDate(){
       if (this.dateMonthlyPayment == '' || this.dateMonthlyPayment == 1){
@@ -178,7 +191,7 @@ export default {
       this.sumMonthly = this.principalBalance * this.companyPayment / 100
     },
     setContractAmount(){
-      this.contractAmount = this.close + this.annualService
+      this.contractAmount = this.close + this.annualService + this.officeFee
     },
 
     setBlock1percent(){
@@ -188,7 +201,12 @@ export default {
       this.block2perc = this.minPayment * 100 / this.sumMonthly
     },
     setBlock3percent(){
-      this.block3perc = this.annualService * 100 / this.contractAmount
+      this.block3perc = (this.annualService + this.officeFee) * 100 / this.contractAmount
+      // console.log('block3perc = ', this.block3perc)
+    },
+    setOfficeFee(){
+      this.officeFee = this.principalBalance / 100
+      // console.log('officeFee', this.officeFee)
     },
     setFormatSettings(){
       // Settings object that controls default parameters for library methods:
@@ -238,18 +256,12 @@ export default {
     this.setBlock2a()
     this.setBlock2b()
     this.setBlock2percent()
-    this.setContractAmount()
+    this.setOfficeFee() // сначала нужно посчитать это число
+    this.setContractAmount() // а уже потом - это!!
     this.setBlock3a()
     this.setBlock3b()
+    this.setBlock3с()
     this.setBlock3percent()
-    // console.log('this.principalBalance', this.principalBalance)
-    // console.log('this.close', this.close)
-    // console.log('this.residual', this.residual)
-    // console.log('this.block1a', this.block1a)
-    // console.log('this.block1b', this.block1b)
-    // console.log('this.minPayment', this.minPayment)
-    // console.log('this.block2a', this.block2a)
-    // console.log('this.block2b', this.block2b)
   }
 }
 </script>
@@ -276,6 +288,27 @@ export default {
     position: fixed;
     z-index: 1000;
   }
+  .logoHeader {
+    margin: 0 auto;
+    max-width: 1170px;
+    height: 88px;
+    padding-left: 5px;
+  }
+  .wrapLogo{
+    border-radius: 50%;
+    box-shadow: 0px 0px 15px #6d6d6d17;
+    background-color: #fff;
+    width: 84px;
+    height: 84px;
+  }
+  .logo{
+    background-color: transparent;
+    background-image: url(/assets/img/logo.png);
+    background-position-x: left;
+    background-repeat: no-repeat;
+    width: 84px;
+    height: 84px;
+  }
   .titleForm{
     font-size: 30px;
     font-weight: 100;
@@ -286,15 +319,6 @@ export default {
     background: #fae465;
     padding: 0px 5px;
     border-radius: .2em;
-  }
-  .logoHeader{
-    margin: 0 0 0 15px;
-    max-width: 1170px;
-    height: 88px;
-    background-color: transparent;
-    background-image: url(/assets/img/logo.png);
-    background-position-x: left;
-    background-repeat: no-repeat;
   }
   .wrapBtnCalculate{
     text-align: center;
@@ -382,9 +406,16 @@ export default {
 
   /* Планшет */
   @media screen and (max-width: 992px) {
-    .logoHeader{
+    .logo{
       background-image: url(/assets/img/logo_mob.png);
-        margin: 0 0 0 10px;
+      height: 44px;
+    }
+    .wrapLogo{
+      margin: 0 0 0 10px;
+      width: 44px;
+      height: 44px;
+    }
+    .logoHeader {
       height: 46px;
     }
   }

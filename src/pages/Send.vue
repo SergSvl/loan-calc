@@ -1,7 +1,11 @@
 <template>
   <el-container>
     <el-header class="header" height="auto">
-      <div class="logoHeader"></div>
+      <div class="logoHeader">
+        <div class="wrapLogo">
+          <div class="logo"></div>
+        </div>
+      </div>
     </el-header>
     <transition name="fade" mode="out-in" appear>
       <el-main>
@@ -194,20 +198,32 @@ export default {
     position: fixed;
     z-index: 1000;
   }
+  .logoHeader {
+    margin: 0 auto;
+    max-width: 1170px;
+    height: 88px;
+    padding-left: 5px;
+  }
+  .wrapLogo{
+    border-radius: 50%;
+    box-shadow: 0px 0px 15px #6d6d6d17;
+    background-color: #fff;
+    width: 84px;
+    height: 84px;
+  }
+  .logo{
+    background-color: transparent;
+    background-image: url(/assets/img/logo.png);
+    background-position-x: left;
+    background-repeat: no-repeat;
+    width: 84px;
+    height: 84px;
+  }
   .titleForm{
     font-size: 20px;
     font-weight: 100;
     font-family: Gilroy-SemiBold;
     margin: 25px 0;
-  }
-  .logoHeader{
-    margin: 0 0 0 15px;
-    max-width: 1170px;
-    height: 88px;
-    background-color: transparent;
-    background-image: url(/assets/img/logo.png);
-    background-position-x: left;
-    background-repeat: no-repeat;
   }
   .wrapBtnSend{
     text-align: center;
@@ -274,9 +290,16 @@ export default {
 
   /* Планшет */
   @media screen and (max-width: 992px) {
-    .logoHeader{
+    .logo{
       background-image: url(/assets/img/logo_mob.png);
-        margin: 0 0 0 10px;
+      height: 44px;
+    }
+    .wrapLogo{
+      margin: 0 0 0 10px;
+      width: 44px;
+      height: 44px;
+    }
+    .logoHeader {
       height: 46px;
     }
     .titleForm{
