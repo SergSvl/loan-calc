@@ -13,7 +13,9 @@
           <el-col>
             <el-page-header @back="goBack" title="Назад" content=""></el-page-header>
 
-            <div class="titleForm">ВАШ ДОЛГ МОЖНО ЗАКРЫТЬ ЗА <span>{{ format(close) }} РУБ</span>!</div>
+            <div class="titleForm">ВАШ ДОЛГ МОЖНО ЗАКРЫТЬ ЗА <span>{{ format(close) }}
+              <!-- <font-awesome-icon :icon="['fas', 'ruble-sign']" style="color: #222; font-size: 26px;"/> -->
+              </span>!</div>
 
             <el-card class="box-card">
               <lineRelation
@@ -25,7 +27,7 @@
 
             <el-card class="box-card">
               <div class="box-card-title">ВАШ ДОЛГ БУДЕТ ПОГАШЕН В ТЕЧЕНИЕ 9 - 10 МЕСЯЦЕВ</div>
-              <div class="box-card-subtitle">Компания будет ежемесячно платить за вас {{ date }} числа {{ format(sumMonthly) }} руб</div>
+              <div class="box-card-subtitle">Компания будет ежемесячно платить за вас {{ date }} числа {{ format(sumMonthly) }}</div>
               <lineRelation
                 :str1="block2a"
                 :str2="block2b"
@@ -33,7 +35,7 @@
               ></lineRelation>
             </el-card>
             <el-card class="box-card">
-              <div class="box-card-title">ИТОГО СУММА ДОГОВОРА {{ format(contractAmount) }} РУБ</div>
+              <div class="box-card-title">ИТОГО СУММА ДОГОВОРА {{ format(contractAmount) }}</div>
               <lineRelation
                 :str1="block3a"
                 :str2="block3b"
@@ -45,17 +47,22 @@
             <el-card class="box-card">
               <div class="box-card-title">КАК ЭТО РАБОТАЕТ?</div>
               <el-image :src="shema" lazy></el-image>
-              <div class="box-card-wrap">
-                <div class="text">Посмотрите короткое видео, в котором мы все объясняем.</div>
+              <!-- <div class="box-card-wrap">
+                <div class="text">Посмотрите короткое видео, в котором мы все объясняем</div>
                 <div class="video">
                   <iframe width="100%" height="100%" :tabindex="-1" frameborder="0" :src="urlVideo" allowfullscreen></iframe>
                 </div>
+              </div> -->
+
+              <div class="box-card-title">ПОСМОТРИТЕ КОРОТКОЕ ВИДЕО, В КОТОРОМ МЫ ВСЕ ОБЪЯСНЯЕМ</div>
+              <div class="video">
+                <iframe width="100%" height="100%" :tabindex="-1" frameborder="0" :src="urlVideo" allowfullscreen></iframe>
               </div>
             </el-card>
 
-            <div class="wrapBtnCalculate">
-              <el-button @click="receiveConsultation" class="btnCalculate" type="">Заключить договор</el-button>
-              <el-button @click="receiveConsultation" class="btnCalculate" type="">Получить консультацию</el-button>
+            <div class="wrapBtnAction">
+              <el-button @click="receiveConsultation" class="btnAction" type="">Заключить договор</el-button>
+              <el-button @click="receiveConsultation" class="btnAction" type="">Получить консультацию</el-button>
             </div>
           </el-col>
         </el-row>
@@ -103,25 +110,44 @@ export default {
       sumMonthly: 0,  // сумма ежемесячного платежа компании заданного числа
       minPayment: 0,  // размер ежемесячного платежа
       debtRepayment: 0, // сумма в счет досрочного погашения долга
-      block1a: '',  // строка: "35% заплатите вы X руб"
-      block1b: '',  // строка: "65% заплатит компания Y руб"
+      block1a: '',  // строка: "35% заплатите вы X ₽"
+      block1b: '',  // строка: "65% заплатит компания Y ₽"
       block1perc: 0,  // число: basePercent
-      block2a: '',  // строка: "Z руб минимальный ежемесячный платеж"
-      block2b: '',  // строка: "W руб в счет досрочного погашения долга"
+      block2a: '',  // строка: "Z ₽ минимальный ежемесячный платеж"
+      block2b: '',  // строка: "W ₽ в счет досрочного погашения долга"
       block2perc: 0,  // число: minPayment * 100 / sumMonthly
-      block3a: '',  // строка: "annualService руб в счет договора годового обслуживания"
-      block3b: '',  // строка: "X руб для погашения долга"
-      block3c: '',  // строка: "R руб офисный сбор"
+      block3a: '',  // строка: "annualService ₽ в счет договора годового обслуживания"
+      block3b: '',  // строка: "X ₽ для погашения долга"
+      block3c: '',  // строка: "R ₽ офисный сбор"
       block3perc: 0,  // число: annualService * 100 / contractAmount
       contractAmount: 0, // итого сумма договора
-      officeFee: 0, // офисный сбор в рублях
+      officeFee: 0, // офисный сбор - 1% от кредитв, в рублях
       shema: './assets/img/shema.jpg',
+      rubl: ' ₽', // на русской раскладке клавы ввести правый Alt + 8
     }
   },
 
   methods: {
     format(number){
-      return accounting.formatNumber(number);
+      return accounting.formatNumber(number) + this.rubl;
+      // return accounting.formatMoney(number);
+    },
+    setFormatSettings(){
+      // Settings object that controls default parameters for library methods:
+      accounting.settings = {
+        currency: {
+          symbol : "$", // default currency symbol is '$'
+          format: "%s%v", // controls output: %s = symbol, %v = value/number (can be object: see below)
+          decimal : ".",  // decimal point separator
+          thousand: ",",  // thousands separator
+          precision : 2   // decimal places
+        },
+        number: {
+          precision : 0,  // default precision on numbers is 0
+          thousand: " ",
+          decimal : "."
+        }
+      }
     },
     goBack() {
       this.$router.push({name:'form'})
@@ -142,11 +168,11 @@ export default {
 
     setBlock1a(){
       // console.log('setBlock1a')
-      this.block1a = this.basePercent + '% заплатите вы ' + this.format(this.close) + ' руб'
+      this.block1a = this.basePercent + '% заплатите вы ' + this.format(this.close)
     },
     setBlock1b(){
       // console.log('setBlock1b')
-      this.block1b = this.residual + '% заплатит компания ' + this.format(this.close * this.residual / this.basePercent) + ' руб'
+      this.block1b = this.residual + '% заплатит компания ' + this.format(this.close * this.residual / this.basePercent)
     },
 
     setMinPayment(){
@@ -160,23 +186,23 @@ export default {
 
     setBlock2a(){
       // console.log('setBlock2a')
-      this.block2a = this.format(this.minPayment) + ' руб минимальный ежемесячный платеж'
+      this.block2a = this.format(this.minPayment) + ' минимальный ежемесячный платеж'
     },
     setBlock2b(){
       // console.log('setBlock2b')
-      this.block2b = this.format(this.debtRepayment) + ' руб в счет досрочного погашения долга'
+      this.block2b = this.format(this.debtRepayment) + ' в счет досрочного погашения долга'
     },
 
     setBlock3a(){
       // console.log('setBlock3a')
-      this.block3a = this.format(this.annualService) + ' руб в счет договора годового обслуживания'
+      this.block3a = this.format(this.annualService) + ' в счет договора годового обслуживания'
     },
     setBlock3b(){
       // console.log('setBlock3b')
-      this.block3b = this.format(this.close) + ' руб для погашения долга'
+      this.block3b = this.format(this.close) + ' для погашения долга'
     },
     setBlock3с(){
-      this.block3c = this.format(this.principalBalance / 100) + ' руб офисный сбор'
+      this.block3c = this.format(this.principalBalance / 100) + ' офисный сбор'
       // console.log('setBlock3с', this.block3c)
     },
 
@@ -208,23 +234,6 @@ export default {
       this.officeFee = this.principalBalance / 100
       // console.log('officeFee', this.officeFee)
     },
-    setFormatSettings(){
-      // Settings object that controls default parameters for library methods:
-      accounting.settings = {
-        currency: {
-          symbol : "$",   // default currency symbol is '$'
-          format: "%s%v", // controls output: %s = symbol, %v = value/number (can be object: see below)
-          decimal : ".",  // decimal point separator
-          thousand: ",",  // thousands separator
-          precision : 2   // decimal places
-        },
-        number: {
-          precision : 0,  // default precision on numbers is 0
-          thousand: " ",
-          decimal : "."
-        }
-      }
-    }
   },
 
   computed: {
@@ -267,93 +276,20 @@ export default {
 </script>
 
 <style scoped>
-  .fade-enter-active, .fade-leave-active {
-    transition: opacity .3s;
-  }
-  .fade-enter, .fade-leave-to {
-    opacity: 0;
-  }
-
-  .el-main{
-    max-width: 1170px;
-    width: 100%;
-    overflow: visible;
-    margin: 0 auto;
-    margin: 108px auto 0
-  }
-  .header{
-    width: 100%;
-    padding: 10px 0;
-    background-color: #f7dc8a;
-    position: fixed;
-    z-index: 1000;
-  }
-  .logoHeader {
-    margin: 0 auto;
-    max-width: 1170px;
-    height: 88px;
-    padding-left: 5px;
-  }
-  .wrapLogo{
-    border-radius: 50%;
-    box-shadow: 0px 0px 15px #6d6d6d17;
-    background-color: #fff;
-    width: 84px;
-    height: 84px;
-  }
-  .logo{
-    background-color: transparent;
-    background-image: url(/assets/img/logo.png);
-    background-position-x: left;
-    background-repeat: no-repeat;
-    width: 84px;
-    height: 84px;
-  }
-  .titleForm{
-    font-size: 30px;
-    font-weight: 100;
-    font-family: Gilroy-SemiBold;
-    margin: 25px 0;
-  }
   .titleForm span {
     background: #fae465;
     padding: 0px 5px;
     border-radius: .2em;
   }
-  .wrapBtnCalculate{
-    text-align: center;
-    margin: 40px 0;
-  }
-  .btnCalculate{
-    background-color: #f7dc8a;
-    font-size: 18px;
-  }
-  .btnCalculate:hover {
-    color: #fff; /*#409EFF;*/
-    border-color: #c6e2ff;
-  }
-  .wrapBtnCalculate button {
+  .wrapBtnAction button {
     margin: 0 0 20px;
   }
-  .box-card{
-    text-align: center;
-    padding: 20px;
-    margin: 30px 0;
-  }
   .box-card-title{
-    font-size: 20px;
     margin-bottom: 20px;
   }
   .box-card-subtitle{
     font-size: 18px;
     padding: 0 0 20px;
-  }
-  .radioGroupVertical{
-    width: 300px;
-    text-align: left;
-    flex-direction: column;
-    margin: 0 auto;
-    display: flex;
   }
   .el-radio {
     margin: 5px 10px;
@@ -372,10 +308,11 @@ export default {
     text-align: left;
   }
   .video{
-    height: 140px;
+    height: 576px;
     width: 100%;
-    max-width: 250px;
-    margin-left: 20px;
+    /* max-width: 250px;
+    margin-left: 20px; */
+    margin: 40px auto;
   }
   .box-card-input-title{
     margin: 20px 20px 20px 0;
@@ -406,32 +343,13 @@ export default {
 
   /* Планшет */
   @media screen and (max-width: 992px) {
-    .logo{
-      background-image: url(/assets/img/logo_mob.png);
-      height: 44px;
-    }
-    .wrapLogo{
-      margin: 0 0 0 10px;
-      width: 44px;
-      height: 44px;
-    }
-    .logoHeader {
-      height: 46px;
+    .video{
+      height: 365px;
     }
   }
 
   /* Мобильник */
   @media screen and (max-width: 543px) {
-    .box-card{
-      padding: 0px;
-    }
-    .box-card-input-title{
-      text-align: center;
-      width: 160px;
-    }
-    .radioGroupVertical{
-      width: auto;
-    }
     .box-card-wrap{
       display: block;
     }
@@ -440,6 +358,7 @@ export default {
       text-align: center;
     }
     .video{
+      height: 187px;
       margin: 0 auto;
     }
     .el-main{

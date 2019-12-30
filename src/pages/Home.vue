@@ -152,11 +152,23 @@
     padding: 15px;
     /* border: 1px solid black; */
   }
+  .el-main{
+    padding: 0px;
+    margin: 0 auto;
+  }
+  .header{
+    width: 100%;
+    background-color: transparent;
+    background-image: url(/assets/img/logo.png);
+    background-position-x: left;
+    background-repeat: no-repeat;
+    position: relative;
+  }
   .titleHome{
     font-size: 42px;
     position: absolute;
     font-weight: 600;
-    font-family: Gilroy-Bold;
+    /* font-family: Gilroy-Bold; */
     z-index: 2;
     width: 670px;
     text-align: left;
@@ -190,17 +202,6 @@
     border-color: transparent;
     background-color: transparent;
     background-image: url("/assets/img/btn_hover.png");
-  }
-  .el-main{
-    padding: 0px;
-    overflow: visible;
-  }
-  .header{
-    width: 100%;
-    background-color: transparent;
-    background-image: url(/assets/img/logo.png);
-    background-position-x: left;
-    background-repeat: no-repeat;
   }
 
   /* ПК */
@@ -243,9 +244,6 @@
 
   /* Мобильник */
   @media screen and (max-width: 543px) {
-    .header{
-      background-image: url(/assets/img/logo_mob.png);
-    }
     .titleHome {
       font-size: 30px;
       width: 100%;

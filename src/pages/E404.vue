@@ -14,7 +14,7 @@
           <el-col>
             <el-card class="box-card">
               <div class="titleForm">Страница не найдена</div>
-              <el-button type="primary" class="btnSend" @click="toHome">На главную</el-button>
+              <el-button type="" class="btnAction" @click="toHome">На главную</el-button>
             </el-card>
           </el-col>
         </el-row>
@@ -46,90 +46,12 @@ export default {
 </script>
 
 <style scoped>
-  .fade-enter-active, .fade-leave-active {
-    transition: opacity .3s;
-  }
-  .fade-enter, .fade-leave-to {
-    opacity: 0;
-  }
-  .el-main{
-    max-width: 1170px;
-    width: 100%;
-    overflow: visible;
-    margin: 0 auto;
-  }
-  .header{
-    width: 100%;
-    padding: 10px 0;
-    background-color: #f7dc8a;
-  }
-  .logoHeader {
-    margin: 0 auto;
-    max-width: 1170px;
-    height: 88px;
-    padding-left: 5px;
-  }
-  .wrapLogo{
-    border-radius: 50%;
-    box-shadow: 0px 0px 15px #6d6d6d17;
-    background-color: #fff;
-    width: 84px;
-    height: 84px;
-  }
-  .logo{
-    background-color: transparent;
-    background-image: url(/assets/img/logo.png);
-    background-position-x: left;
-    background-repeat: no-repeat;
-    width: 84px;
-    height: 84px;
-  }
   .titleForm{
-    font-size: 20px;
-    font-weight: 100;
-    font-family: Gilroy-SemiBold;
-    margin: 25px 0;
-  }
-  .wrapBtnSend{
-    text-align: center;
-    margin: 40px 0;
-  }
-  .btnSend{
-    background-color: #f7dc8a;
-    font-size: 18px;
-    line-height: 1;
-    white-space: nowrap;
-    cursor: pointer;
-    border: 1px solid #DCDFE6;
-    color: #606266;
-  }
-  .btnSend:hover {
-    color: #fff; /*#409EFF;*/
-    border-color: #c6e2ff;
-  }
-  .box-card{
-    text-align: center;
-    padding: 20px;
-    margin: 30px 0;
-  }
-  .box-card-title{
     font-size: 20px;
   }
 
   /* Планшет */
   @media screen and (max-width: 992px) {
-    .logo{
-      background-image: url(/assets/img/logo_mob.png);
-      height: 44px;
-    }
-    .wrapLogo{
-      margin: 0 0 0 10px;
-      width: 44px;
-      height: 44px;
-    }
-    .logoHeader {
-      height: 46px;
-    }
     .titleForm{
       text-align: center;
     }
@@ -137,13 +59,6 @@ export default {
 
   /* Мобильник */
   @media screen and (max-width: 543px) {
-    .box-card{
-      padding: 0px;
-    }
-    .box-card-input-title{
-      text-align: center;
-      width: 160px;
-    }
     .titleForm{
       font-size: 16px;
     }

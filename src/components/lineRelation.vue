@@ -10,6 +10,11 @@
           :mask="['far', '']"
           style="color: #8BC34A; font-size: 25px;"
         />
+        <!-- <font-awesome-icon
+          :icon="['fas', 'ruble-sign']"
+          :mask="['far', '']"
+          style="color: #8BC34A; font-size: 25px;"
+        /> -->
         &nbsp; {{ str1 }}
       </p>
       <p class="percentWrap" v-if="str3">

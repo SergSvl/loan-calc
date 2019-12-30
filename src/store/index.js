@@ -5,17 +5,14 @@
 
  export const store = new Vuex.Store({
     state: {
-      typeCredit: '',
+      typeCredit: '', // 'Ипотека',
       principalBalance: 100000,
       monthlyPayment: 1000,
-      dateMonthlyPayment: '',
-      latePayments: '',
+      dateMonthlyPayment: '', // '2',
+      latePayments: '', //'Нет',
       wasThereTrial: '',
       whereCase: '',
-      otherLoan: '',
-      // logoPc: '/assets/img/logo.png',
-      // logoPl: '/assets/img/logo_plansh.png',
-      // logoMob: '/assets/img/logo_mob.png',
+      otherLoan: '', // 'Нет',
     },
     getters: {
       typeCredit(state){

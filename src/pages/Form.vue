@@ -103,8 +103,8 @@
               </div>
             </el-card>
 
-            <div class="wrapBtnCalculate">
-              <el-button @click="onOffer" class="btnCalculate" type="">Рассчитать</el-button>
+            <div class="wrapBtnAction">
+              <el-button @click="onOffer" class="btnAction" type="">Рассчитать</el-button>
             </div>
           </el-col>
         </el-row>
@@ -236,89 +236,12 @@ export default {
 </script>
 
 <style scoped>
-  .fade-enter-active, .fade-leave-active {
-    transition: opacity .3s;
-  }
-  .fade-enter, .fade-leave-to {
-    opacity: 0;
-  }
-
-  .el-main{
-    max-width: 1170px;
-    width: 100%;
-    overflow: visible;
-    margin: 0 auto;
-    margin: 108px auto 0
-  }
-  .header{
-    width: 100%;
-    padding: 10px 0;
-    background-color: #f7dc8a;
-    position: fixed;
-    z-index: 1000;
-  }
-  .logoHeader {
-    margin: 0 auto;
-    max-width: 1170px;
-    height: 88px;
-    padding-left: 5px;
-  }
-  .wrapLogo{
-    border-radius: 50%;
-    box-shadow: 0px 0px 15px #6d6d6d17;
-    background-color: #fff;
-    width: 84px;
-    height: 84px;
-  }
-  .logo{
-    background-color: transparent;
-    background-image: url(/assets/img/logo.png);
-    background-position-x: left;
-    background-repeat: no-repeat;
-    width: 84px;
-    height: 84px;
-  }
-
-  .titleForm{
-    font-size: 30px;
-    font-weight: 100;
-    font-family: Gilroy-SemiBold;
-    margin: 25px 0;
-  }
-  .wrapBtnCalculate{
-    text-align: center;
-    margin: 40px 0;
-  }
-  .btnCalculate{
-    background-color: #f7dc8a;
-    font-size: 18px;
-  }
-  .btnCalculate:hover {
-    color: #fff; /*#409EFF;*/
-    border-color: #c6e2ff;
-  }
-  .box-card{
-    text-align: center;
-    padding: 20px;
-    margin: 30px 0;
-  }
-  .box-card-title{
-    font-size: 20px;
-  }
-  .radioGroupVertical{
-    width: 300px;
-    text-align: left;
-    flex-direction: column;
-    margin: 0 auto;
-    display: flex;
-  }
   .el-radio {
     margin: 5px 10px;
   }
   .el-radio__label{
     font-size: 16px;
   }
-
   .box-card-wrap{
     margin: 0 auto;
   }
@@ -350,35 +273,10 @@ export default {
   } */
 
   /* Планшет */
-  @media screen and (max-width: 992px) {
-    .logo{
-      background-image: url(/assets/img/logo_mob.png);
-      height: 44px;
-    }
-    .wrapLogo{
-      margin: 0 0 0 10px;
-      width: 44px;
-      height: 44px;
-    }
-    .logoHeader {
-      height: 46px;
-    }
-  }
+  /* @media screen and (max-width: 992px) {
+  } */
 
   /* Мобильник */
-  @media screen and (max-width: 543px) {
-    .box-card{
-      padding: 0px;
-    }
-    .box-card-input-title{
-      text-align: center;
-      width: 160px;
-    }
-    .radioGroupVertical{
-      width: auto;
-    }
-    .el-main{
-      margin: 54px auto 0
-    }
-  }
+  /* @media screen and (max-width: 543px) {
+  } */
 </style>
