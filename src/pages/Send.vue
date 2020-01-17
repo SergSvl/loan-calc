@@ -136,7 +136,7 @@ export default {
             // console.log('Ответ: ', res);
             if (res.status){
               this.mailSuccess(res.result)
-              this.$router.push({name:'home'})
+              this.$router.push({name:'success'})
             } else {
               this.mailError(res.error);
             }

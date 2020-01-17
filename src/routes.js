@@ -28,6 +28,11 @@ export default new VueRouter({
       path: user_config.subFolder+'/send',
       name: "send",
       component:  () => import('./pages/Send')
+    },
+    {
+      path: user_config.subFolder+'/success',
+      name: "success",
+      component:  () => import('./pages/Success')
     }
   ]
 })
