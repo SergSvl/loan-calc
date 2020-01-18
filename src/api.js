@@ -2,6 +2,7 @@ import server from './server';
 
 export async function send(data){
   let formData = createFormData(data);
+  // console.log('formData: ', formData);
   let response = await server.post('mail.php', formData);
   // console.log('api-response: ', response.data);
   return response.data;

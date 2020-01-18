@@ -28,10 +28,18 @@
                 :inline-message="true"
               >
                 <el-form-item label="Ваше имя" prop="name">
-                  <el-input v-model="sendForm.name"></el-input>
+                  <el-input v-model="sendForm.name"
+                    ref="inpName"
+                    @input="onInput"
+                    @blur="onInput"
+                  ></el-input>
                 </el-form-item>
                 <el-form-item label="Телефон" prop="phone">
-                  <el-input v-model="sendForm.phone"></el-input>
+                  <el-input v-model="sendForm.phone"
+                    ref="inpPhone"
+                    @input="onInput"
+                    @blur="onInput"
+                  ></el-input>
                 </el-form-item>
               </el-form>
 
@@ -119,6 +127,7 @@ export default {
         if (valid) {
           let data = {
             zaymy: JSON.stringify({
+              id: user_config.subFolder,
               name: this.sendForm.name,
               phone: this.sendForm.phone,
               typeCredit: this.typeCredit,
@@ -161,9 +170,10 @@ export default {
       });
     },
     mailError(error) {
+      // console.log('Mail error: ', error);
       this.$notify.error({
         title: 'Ошибка',
-        message: error
+        message: error ? error : 'Ошибка на почтовом сервере'
       });
     },
     mailSuccess(result) {
@@ -173,122 +183,73 @@ export default {
         type: 'success'
       });
     },
+
+    onInput(){
+      let color = '#08f308'
+      // console.log('inpName', this.$refs["inpName"])
+      // console.log('inpName', this.$refs["inpName"].$el)
+      // console.log('inpPhone', this.$refs["inpPhone"].$el)
+      let name = this.$refs["inpName"].value || ''
+      let phone = this.$refs["inpPhone"].value || ''
+      setTimeout(() => {
+        if (name) this.$refs["inpName"].$el.querySelector('.el-input__suffix').style.color = color
+        if (phone) this.$refs["inpPhone"].$el.querySelector('.el-input__suffix').style.color = color
+      }, 50)
+    }
   },
 }
 </script>
 
 <style scoped>
-  /* .el-main{
-    /* max-width: 1170px;
-    width: 100%; */
-    /* margin: 108px auto 0 * /
-  } */
-  /* .header{
-    width: 100%;
-    padding: 10px 0;
-    background-color: #f7dc8a;
-    position: fixed;
-    z-index: 1000;
-  } */
+.titleForm{
+font-size: 20px;
+}
+/* .btnAction{
+} */
+.box-card-input-title{
+margin: 20px 20px 20px 0;
+width: 210px;
+text-align: right;
+display: inline-block;
+font-size: 14px;
+color: #606266;
+}
+.box-card-input{
+width: auto;
+}
+.el-form{
+width: 600px;
+margin: 0 auto;
+}
+.el-form > label{
+width: 300px;
+}
+
+/* ПК */
+/* @media screen and (max-width: 1200px) {
+
+} */
+
+/* Планшет */
+@media screen and (max-width: 992px) {
+.titleForm{
+  text-align: center;
+}
+.el-form{
+  width: auto;
+}
+}
+
+/* Мобильник */
+@media screen and (max-width: 543px) {
+  .box-card > div {
+    padding: 10px;
+  }
   .titleForm{
-    font-size: 20px;
-    /* font-weight: 100;
-    font-family: Gilroy-SemiBold;
-    margin: 25px 0; */
-  }
-  /* .wrapbtnAction{
-    text-align: center;
-    margin: 40px 0;
-  } */
-  .btnAction{
-    /* background-color: #f7dc8a; */
-    /* font-size: 18px; */
-    /* line-height: 1; */
-    /* white-space: nowrap; */
-    /* cursor: pointer; */
-    /* border: 1px solid #DCDFE6;
-    color: #606266; */
-  }
-  /* .btnAction:hover {
-    color: #fff;
-    border-color: #c6e2ff;
-  } */
-  /* .box-card{
-    text-align: center;
-    padding: 20px;
-    margin: 30px 0;
-  }
-  .box-card-title{
-    font-size: 20px;
-  } */
-  /* .radioGroupVertical{
-    width: 300px;
-    text-align: left;
-    flex-direction: column;
-    margin: 0 auto;
-    display: flex;
-  } */
-  /* .el-radio {
-    margin: 5px 10px;
-  }
-  .el-radio__label{
     font-size: 16px;
-  } */
-
-  .box-card-input-title{
-    margin: 20px 20px 20px 0;
-    width: 210px;
-    text-align: right;
-    display: inline-block;
-    font-size: 14px;
-    color: #606266;
   }
-  .box-card-input{
-    width: auto;
+  .sendForm > div > label {
+    float: none;
   }
-  .el-form{
-    width: 600px;
-    margin: 0 auto;
-  }
-  .el-form > label{
-    width: 300px;
-  }
-
-  /* ПК */
-  /* @media screen and (max-width: 1200px) {
-
-  } */
-
-  /* Планшет */
-  @media screen and (max-width: 992px) {
-    .titleForm{
-      text-align: center;
-    }
-    .el-form{
-      width: auto;
-    }
-  }
-
-  /* Мобильник */
-  @media screen and (max-width: 543px) {
-    /* .box-card{
-      padding: 0px;
-    } */
-    /* .box-card-input-title{
-      text-align: center;
-      width: 160px;
-    } */
-    .box-card > div {
-      padding: 10px;
-    }
-    /* .radioGroupVertical{
-      width: auto;
-    } */
-    .titleForm{
-      font-size: 16px;
-    }
-    .sendForm > div > label {
-      float: none;
-    }
-  }
+}
 </style>

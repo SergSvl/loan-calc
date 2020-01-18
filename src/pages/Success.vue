@@ -13,6 +13,10 @@
           <el-col>
             <el-card class="box-card">
               <div class="titleForm">Ваша заявка отправлена. В ближайшее время с вами свяжется менеджер. А пока вы будете перенаправлены на страницу с более подробной информацией о проекте Finiko.</div>
+              <Countdown
+                :seconds='seconds'
+                :url='url'
+              />
             </el-card>
           </el-col>
         </el-row>
@@ -23,10 +27,12 @@
 
 <script>
 import {Container, Header, Main, Card, Col, Row} from 'element-ui'
+import Countdown from '../components/Countdown';
 
 export default {
   name: 'app',
   components: {
+    Countdown,
     'el-container': Container,
     'el-header': Header,
     'el-main': Main,
@@ -35,14 +41,16 @@ export default {
     'el-row': Row
   },
 
-  mounted(){
-    setTimeout(() => {
-      window.location.href = user_config.redirectURL
-    }, user_config.redirectWait)
-  },
+  // mounted(){
+    // setTimeout(() => {
+        // window.location.href = user_config.redirectURL
+    // }, user_config.redirectWait)
+  // },
 
   data () {
     return {
+      seconds: user_config.redirectWait,
+      url: user_config.redirectURL
     }
   }
 }
@@ -51,6 +59,7 @@ export default {
 <style scoped>
   .titleForm{
     font-size: 20px;
+    line-height: 1.5;
   }
   .box-card-input-title{
     margin: 20px 20px 20px 0;

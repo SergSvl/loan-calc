@@ -56,7 +56,18 @@
 
               <div class="box-card-title">ПОСМОТРИТЕ КОРОТКОЕ ВИДЕО, В КОТОРОМ МЫ ВСЕ ОБЪЯСНЯЕМ</div>
               <div class="video">
-                <iframe width="100%" height="100%" :tabindex="-1" frameborder="0" :src="urlVideo" allowfullscreen></iframe>
+                <iframe width="100%" height="100%" frameborder="0"
+                  :tabindex="-1"
+                  :src="urlVideo+'?controls=0'"
+                  iv_load_policy="3"
+                  disablekb="1"
+                  fs="0"
+                  allow="accelerometer;
+                  autoplay;
+                  encrypted-media;
+                  gyroscope;
+                  picture-in-picture"
+                ></iframe>
               </div>
             </el-card>
 

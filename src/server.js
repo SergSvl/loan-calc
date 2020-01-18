@@ -15,7 +15,7 @@ server.interceptors.request.use(function(request){
 server.interceptors.response.use(function(response){
   if (typeof response.data !== 'object'){
     // console.log('OBJ response.data = ', response.data.errors);
-    // console.log("OBJ response.data::\n", response.data);
+    console.log("OBJ response.data::\n", response.data);
     throw new Error(response.data.error);
   } else {
     // console.log('Server response.data = ', response.data);
