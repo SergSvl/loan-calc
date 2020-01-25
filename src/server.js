@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from 'axios'
 
 let server = axios.create({
   baseURL: user_config.baseURL
@@ -23,4 +23,5 @@ server.interceptors.response.use(function(response){
   return response;
 });
 
+// export default server;
 export default server;

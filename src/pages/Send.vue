@@ -74,7 +74,7 @@
 import {Container, Header, Main, Card, Col, Row, Button, Input, Form, FormItem} from 'element-ui'
 import {store} from '../store/'
 import {mapGetters} from 'vuex'
-import {send} from '../api'
+import {sendMail, sendTelegram} from '../api'
 
 export default {
   name: 'app',
@@ -104,7 +104,8 @@ export default {
         phone: [
           { required: true, message: 'Укажите Ваш телефон' },
         ],
-      }
+      },
+      infoNotify: [],
     }
   },
 
@@ -123,7 +124,7 @@ export default {
 
   methods: {
     submit(formName){
-      this.$refs[formName].validate(async (valid) => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
           let data = {
             zaymy: JSON.stringify({
@@ -141,18 +142,27 @@ export default {
             })
           }
           try{
-            let res = await send(data);
-            // console.log('Ответ: ', res);
-            if (res.status){
-              this.mailSuccess(res.result)
-              this.$router.push({name:'success'})
+            /*
+              mail   telegram
+                1       1
+                1       0
+                0       1
+                0       0
+            */
+            if (user_config.sendMail && user_config.sendTelegram){
+              this.sendToMail(data, false) // не редиректить
+              this.sendToTelegram(data, false) // info покажеть ф-ция sendToMail()
+            } else if (user_config.sendMail){
+              this.sendToMail(data, true) // редиректить
+            } else if (user_config.sendTelegram){
+              this.sendToTelegram(data, true)
             } else {
-              this.mailError(res.error);
+              this.sendError("Не выбран ни один способ отправки сообщения.");
             }
           } catch(err){
             console.log('Ошибка: ', err);
             if (err){
-              this.mailError();
+              this.sendError();
             } else {
               console.log('Не Ошибка?!');
             }
@@ -163,25 +173,86 @@ export default {
         }
       });
     },
+    async sendToMail(data, redirectNow){
+      let res = await sendMail(data);
+      if (res.status){
+        this.sendSuccess(res.result)
+        if (redirectNow) this.$router.push({name:'success'})
+        else setTimeout(() => {
+          this.sendInfo('Отправляется сообщение в Телеграм...', 0) // не закрывать сообщение
+        }, 250)
+      } else {
+        this.sendError(res.error);
+      }
+    },
+    sendToTelegram(data, showMsg){
+      let telegram = user_config.telegram
+      for (let i=0; i < telegram.length; i++){
+        data.zaymyTelegram = JSON.stringify({
+          telegram_token: telegram[i].telegram_token,
+          telegram_chat_id: telegram[i].telegram_chat_id
+        })
+        // console.log('i: ', i);
+        // console.log('telegram[i]: ', telegram[i]);
+        // console.log('data: ', data);
+        this.sendTelegram(data, true)
+      }
+    },
+    async sendTelegram(data, showMsg){
+      if (showMsg){
+        setTimeout(() => {
+          this.sendInfo('Отправляется сообщение в Телеграм...', 0) // не закрывать сообщение
+        }, 250)
+      }
+      let res = await sendTelegram(data);
+      // console.log('sendTelegram: ', res);
+      if (res.status){
+        this.sendSuccess("Сообщение отправлено")
+        // this.$router.push({name:'success'})
+      } else {
+        this.sendError(res.error);
+      }
+    },
     validatetError() {
       this.$notify.error({
         title: 'Ошибка',
         message: 'Укажите Ваш телефон'
       });
     },
-    mailError(error) {
+    sendError(error) {
       // console.log('Mail error: ', error);
       this.$notify.error({
         title: 'Ошибка',
-        message: error ? error : 'Ошибка на почтовом сервере'
+        message: error ? '<div style="text-align:left">' + error + '</div>' : 'Ошибка на почтовом сервере',
+        dangerouslyUseHTMLString: true,
+        duration: 0
       });
     },
-    mailSuccess(result) {
+    sendSuccess(result) {
+      if (this.infoNotify.length > 0){
+        this.infoNotify.pop().close() // закрываем висящее окно с инфой при послуплении сообщения об успехе
+      }
       this.$notify({
         title: 'Успешно',
-        message: result,
+        message: '<div style="text-align:left">' + result + '</div>',
+        dangerouslyUseHTMLString: true,
         type: 'success'
       });
+    },
+    sendInfo(msg, timer) {
+      let time
+      if (timer == 0) time = 0
+      else time = 5000
+      // складываем сообщения в массив, чтобы потом все их закрыть
+      this.infoNotify.push(
+        this.$notify.info({
+          title: 'Информация',
+          message: '<div style="text-align:left">'+msg+'</div>',
+          dangerouslyUseHTMLString: true,
+          duration: time
+        })
+      );
+      // console.log('infoNotify: ', this.infoNotify);
     },
 
     onInput(){
@@ -202,27 +273,27 @@ export default {
 
 <style scoped>
 .titleForm{
-font-size: 20px;
+  font-size: 20px;
 }
 /* .btnAction{
 } */
 .box-card-input-title{
-margin: 20px 20px 20px 0;
-width: 210px;
-text-align: right;
-display: inline-block;
-font-size: 14px;
-color: #606266;
+  margin: 20px 20px 20px 0;
+  width: 210px;
+  text-align: right;
+  display: inline-block;
+  font-size: 14px;
+  color: #606266;
 }
 .box-card-input{
-width: auto;
+  width: auto;
 }
 .el-form{
-width: 600px;
-margin: 0 auto;
+  width: 600px;
+  margin: 0 auto;
 }
 .el-form > label{
-width: 300px;
+  width: 300px;
 }
 
 /* ПК */

@@ -4,15 +4,15 @@
  Vue.use(Vuex);
 
  export const store = new Vuex.Store({
-    state: {
-      typeCredit: '', // 'Ипотека',
-      principalBalance: 100000,
-      monthlyPayment: 1000,
-      dateMonthlyPayment: '', // '2',
-      latePayments: '', //'Нет',
-      wasThereTrial: '',
-      whereCase: '',
-      otherLoan: '', // 'Нет',
+   state: {
+      typeCredit: user_config.typeCredit,
+      dateMonthlyPayment: user_config.dateMonthlyPayment,
+      latePayments: user_config.latePayments,
+      otherLoan: user_config.otherLoan,
+      principalBalance: user_config.principalBalance,
+      monthlyPayment: user_config.monthlyPayment,
+      wasThereTrial: user_config.wasThereTrial,
+      whereCase: user_config.whereCase
     },
     getters: {
       typeCredit(state){
