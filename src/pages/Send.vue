@@ -151,11 +151,11 @@ export default {
             */
             if (user_config.sendMail && user_config.sendTelegram){
               this.sendToMail(data, false) // не редиректить
-              this.sendToTelegram(data, false) // info покажеть ф-ция sendToMail()
+              this.sendToTelegram(data)
             } else if (user_config.sendMail){
               this.sendToMail(data, true) // редиректить
             } else if (user_config.sendTelegram){
-              this.sendToTelegram(data, true)
+              this.sendToTelegram(data)
             } else {
               this.sendError("Не выбран ни один способ отправки сообщения.");
             }
@@ -178,14 +178,14 @@ export default {
       if (res.status){
         this.sendSuccess(res.result)
         if (redirectNow) this.$router.push({name:'success'})
-        else setTimeout(() => {
-          this.sendInfo('Отправляется сообщение в Телеграм...', 0) // не закрывать сообщение
-        }, 250)
+        // else setTimeout(() => {
+        //   this.sendInfo('Отправляется сообщение в Телеграм...', 0) // не закрывать сообщение
+        // }, 50)
       } else {
         this.sendError(res.error);
       }
     },
-    sendToTelegram(data, showMsg){
+    sendToTelegram(data){
       let telegram = user_config.telegram
       for (let i=0; i < telegram.length; i++){
         data.zaymyTelegram = JSON.stringify({
@@ -195,20 +195,18 @@ export default {
         // console.log('i: ', i);
         // console.log('telegram[i]: ', telegram[i]);
         // console.log('data: ', data);
-        this.sendTelegram(data, true)
+        this.sendTelegram(data)
       }
     },
-    async sendTelegram(data, showMsg){
-      if (showMsg){
-        setTimeout(() => {
-          this.sendInfo('Отправляется сообщение в Телеграм...', 0) // не закрывать сообщение
-        }, 250)
-      }
+    async sendTelegram(data){
+      this.sendInfo('Отправляется сообщение в Телеграм...', 0) // 0 - значит не закрывать сообщение
       let res = await sendTelegram(data);
       // console.log('sendTelegram: ', res);
       if (res.status){
-        this.sendSuccess("Сообщение отправлено")
-        // this.$router.push({name:'success'})
+        // setTimeout(() => {
+          this.sendSuccess("Сообщение отправлено", true) // true значит, что сообщение можно закрывать
+        // }, 20)
+        this.$router.push({name:'success'}) // redirect
       } else {
         this.sendError(res.error);
       }
@@ -228,8 +226,9 @@ export default {
         duration: 0
       });
     },
-    sendSuccess(result) {
-      if (this.infoNotify.length > 0){
+    sendSuccess(result, closeNotify) {
+      closeNotify = closeNotify || false
+      if (this.infoNotify.length > 0 && closeNotify){
         this.infoNotify.pop().close() // закрываем висящее окно с инфой при послуплении сообщения об успехе
       }
       this.$notify({
